@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'hermes'
+
+hermes = Hermes::Hermes.new
+hermes.start
