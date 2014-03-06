@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'hermes'
-
-Hermes.start(ARGV)
