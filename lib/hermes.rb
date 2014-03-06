@@ -2,7 +2,6 @@
 
 require 'rubygems'
 require 'bundler/setup'
-
 require 'thor'
  
 class Hermes < Thor
@@ -35,4 +34,3 @@ class Hermes < Thor
   end
 end
  
-Hermes.start(ARGV)

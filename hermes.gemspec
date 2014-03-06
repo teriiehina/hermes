@@ -1,8 +1,8 @@
 Gem::Specification.new do |s|
   
   s.name        = 'hermes'
-  s.version     = '0.0.3'
-  s.date        = '2014-03-05'
+  s.version     = '0.0.1'
+  s.date        = '2014-03-06'
   s.summary     = "Build and distribute iOS app"
   s.description = "A tool that works only with plist files"
   s.authors     = ["Peter Meuel"]

@@ -2,5 +2,4 @@
 
 require 'hermes'
 
-hermes = Hermes::Hermes.new
-hermes.start
+Hermes.start(ARGV)
