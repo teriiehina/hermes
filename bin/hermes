@@ -4,4 +4,4 @@ require 'rubygems'
 require 'bundler/setup'
 require 'hermes'
 
-Hermes.start(ARGV)
+Hermes::Hermes.start(ARGV)
