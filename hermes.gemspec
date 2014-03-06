@@ -7,14 +7,14 @@ Gem::Specification.new do |spec|
   spec.name          = "hermes"
   spec.version       = Hermes::VERSION
   
-  s.homepage    = 'https://github.com/teriiehina/hermes'
-  s.license     = 'MIT'
+  spec.homepage    = 'https://github.com/teriiehina/hermes'
+  spec.license     = 'MIT'
   
-  s.date        = '2014-03-06'
-  s.summary     = "Build and distribute iOS app"
-  s.description = "A tool that works only with plist files"
-  s.authors     = ["Peter Meuel"]
-  s.email       = 'peter@teriiehina.net'
+  spec.date        = '2014-03-06'
+  spec.summary     = "Build and distribute iOS app"
+  spec.description = "A tool that works only with plist files"
+  spec.authors     = ["Peter Meuel"]
+  spec.email       = 'peter@teriiehina.net'
                     
 
   spec.files         = `git ls-files -z`.split("\x0")
