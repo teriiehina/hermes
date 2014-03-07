@@ -13,14 +13,13 @@ require_relative 'parse.rb'
 require_relative 'git.rb'
 require_relative 'upload.rb'
 
-def deploy (deployments , extra_commands)
+def deploy (deployments)
 
-  unlock_keychain
-  
+  #unlock_keychain
 
   deployments.each do |deploy|
     
-    extra_commands = deploy["clangExtraCommands"]
+    extra_commands = deploy["build"]["clangExtraCommands"]
   
     puts "Chargement des variables"
     xcode_settings = load_xcode_settings deploy , extra_commands
@@ -61,21 +60,13 @@ def add_version_if_needed (xcode_settings , deploy)
   if deploy["isVersioned"] == false
     return
   end
-    
-  infoPlistPath     = "#{ENV['WORKSPACE']}/PagesJaunes/PagesJaunes/PagesJaunes-Info.plist"
-  infoPlist         = Plist::parse_xml(infoPlistPath)
-  appVersion        = infoPlist['CFBundleVersion']
-  appName           = infoPlist['PJDistName']
-  appFullName       = "#{appName}.#{appVersion}"
-
-  puts appFullName
-
-  # chargement des doonées
-
-  plist_name        = "/" + File.basename(__FILE__).sub(".rb" , ".plist")
-  plist_path        = File.expand_path(File.dirname(__FILE__)) + plist_name
-  deployments       = Plist::parse_xml(plist_path)
-  extra_commands    = ""
+  
+  
+  infoPlistPath         = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["infosPlistRelativePath"]
+  infoPlist             = Plist::parse_xml(infoPlistPath)
+  appVersion            = infoPlist['CFBundleVersion']
+  appName               = infoPlist['PJDistName']
+  appFullName           = "#{appName}.#{appVersion}"
   
   smallVersion          = dtmobXMLVersionForEnv(deploy["PJServerConf"]).downcase
   versioned             = dtmobXMLVersionForEnv deploy["PJServerConf"]
@@ -86,14 +77,12 @@ def add_version_if_needed (xcode_settings , deploy)
   
   publicURL = deploy["uploadServer"]["publicURL"]
   publicURL = publicURL.gsub(/([^\/]+)$/ , appFullName)
-
+  
   deploy["uploadServer"]["path"]                = path
   deploy["uploadServer"]["publicURL"]           = publicURL
   deploy["uploadServer"]["applicationVersion"]  = appFullNameVersioned
   
-  #  deploy["bundleID"]    = "com.pagesjaunes.dsem.beta.#{appName.downcase}.#{smallVersion}"
-  deploy["bundleID"]    = "com.pagesjaunes.ad4screen"
-  deploy["displayName"] = "#{appVersion}.#{smallVersion.upcase}"
+  deploy["infosPlist"]["displayName"]           = "#{appVersion}.#{smallVersion.upcase}"
   
 end
 
