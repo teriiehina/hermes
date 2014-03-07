@@ -8,7 +8,7 @@ def load_xcode_settings(deploy , extra_commands)
   # Variable Jenkins
   #
 
-  projectDirectory      = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["workspaceRelativePath"]
+  projectDirectory      = deploy["paths"]["projectAbsolutPath"]
   buildURL              = "#{ENV['BUILD_URL']}"
   buildNumber           = "#{ENV['BUILD_NUMBER']}"
   jobName               = "#{ENV['JOB_NAME']}"
@@ -25,7 +25,7 @@ def load_xcode_settings(deploy , extra_commands)
 
   xcode_settings = Hash.new
 
-  xcode_settings[:applicationName]      = deploy["infosPlist"]["displayName"]
+  xcode_settings[:applicationName]      = deploy["infosPlist"]["CFBundleDisplayName"]
   xcode_settings[:projectDirectory]     = projectDirectory
 
   xcode_settings[:workspaceName]        = deploy["build"]["workspaceName"]

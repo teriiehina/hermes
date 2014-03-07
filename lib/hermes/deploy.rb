@@ -82,7 +82,7 @@ def add_version_if_needed (xcode_settings , deploy)
   deploy["uploadServer"]["publicURL"]           = publicURL
   deploy["uploadServer"]["applicationVersion"]  = appFullNameVersioned
   
-  deploy["infosPlist"]["displayName"]           = "#{appVersion}.#{smallVersion.upcase}"
+  deploy["infosPlist"]["CFBundleDisplayName"]   = "#{appVersion}.#{smallVersion.upcase}"
   
 end
 
