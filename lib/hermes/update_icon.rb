@@ -11,6 +11,12 @@ require_relative 'paths.rb'
 def updateIcon (xcode_settings , deploy)
 
   icons = [["icone_base.png" , "icone.png"] , ["icone_base@2x.png" , "icone@2x.png"]]
+  
+  should_update_icon = deploy["icon"]["addExtraInfosInIcon"]
+  
+  if !should_update_icon
+    return
+  end
 
   icons.each do |files|
     
@@ -34,13 +40,34 @@ def addInfosToIcon (xcode_settings , deploy , source_file , dest_file)
   pjServerConf  = fileNameForEnv deploy["PJServerConf"]
     
   width    = `identify -format %w #{source_file}`
+  
+  caption = iconCaptionForDeploy deploy
 
   command  = "convert -background '#0008'"
   command += " -fill white -gravity center"
   command += " -size #{width}x40"
-  command += " caption:\"#{version} #{pjServerConf} #{commit}\" \"#{source_file}\""
+  command += " caption:\"#{caption}\" \"#{source_file}\""
   command += " +swap -gravity south -composite \"#{dest_file}\""
 
   system(command)
 
+end
+
+def iconCaptionForDeploy(deploy)
+  
+  caption = ""
+  
+  if !deploy["icon"]["addBuildNumber"]
+    caption += "#{version}"
+  end
+  
+  if !deploy["icon"]["addCIMobEnv"]
+    caption += "#{pjServerConf}"
+  end
+  
+  if !deploy["icon"]["addCommitId"]
+    caption += "#{commit}"
+  end
+    
+  caption
 end
