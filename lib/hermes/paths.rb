@@ -53,6 +53,7 @@ def dsymPath (xcode_settings , deploy)
   
   buildDirectory      = xcode_settings[:buildDirectory]
   buildConfiguration  = xcode_settings[:buildConfiguration]
+  applicationName     = xcode_settings[:applicationName]
   
   "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{applicationName}.app.dSYM"
   
