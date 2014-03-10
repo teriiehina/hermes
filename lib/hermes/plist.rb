@@ -32,7 +32,7 @@ def generateDeployPlist (xcode_settings , deploy)
   assets.push asset
   
   metadata    = Hash.new
-  metadata['bundle-identifier'] = deploy["bundleID"]
+  metadata['bundle-identifier'] = deploy["infosPlist"]["CFBundleIdentifier"]
   metadata['bundle-version']    = projectInfos['CFBundleVersion']
   metadata['subtitle']          = 'by SoLocal'
   metadata['title']             = deploy["infosPlist"]["CFBundleDisplayName"]

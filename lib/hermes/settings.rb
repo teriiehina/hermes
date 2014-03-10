@@ -25,6 +25,7 @@ def load_xcode_settings(deploy , extra_commands)
 
   xcode_settings = Hash.new
 
+  
   xcode_settings[:applicationName]      = deploy["infosPlist"]["CFBundleDisplayName"]
   xcode_settings[:projectDirectory]     = projectDirectory
 
@@ -41,7 +42,9 @@ def load_xcode_settings(deploy , extra_commands)
 
   xcode_settings[:signingIdentity]      = signingIdentity
   xcode_settings[:provisioningProfile]  = provisioningProfile
-
+  
+  xcode_settings[:bundleName]           = deploy["build"]["schemeName"]
+  
   if extra_commands
     xcode_settings[:extra_commands] = " " + extra_commands
   end

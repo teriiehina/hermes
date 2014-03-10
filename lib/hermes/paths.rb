@@ -6,9 +6,9 @@ def appPath (xcode_settings , deploy)
   buildDirectory      = xcode_settings[:buildDirectory]
   buildConfiguration  = xcode_settings[:buildConfiguration]
   buildNumber         = xcode_settings[:buildNumber]
-  applicationName     = xcode_settings[:applicationName]
+  bundleName          = xcode_settings[:bundleName]
   
-  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{applicationName}.app"
+  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{bundleName}.app"
   
 end
 
@@ -19,7 +19,7 @@ def ipaName(xcode_settings , deploy)
   buildNumber         = xcode_settings[:buildNumber]
   applicationName     = xcode_settings[:applicationName]
   
-  pjServerConf        = deploy["PJServerConf"]
+  pjServerConf        = deploy["infosPlist"]["PJServerConf"]
   cimob               = fileNameForEnv pjServerConf
 
   "#{applicationName}.#{cimob}.#{buildNumber}.ipa"
@@ -53,9 +53,9 @@ def dsymPath (xcode_settings , deploy)
   
   buildDirectory      = xcode_settings[:buildDirectory]
   buildConfiguration  = xcode_settings[:buildConfiguration]
-  applicationName     = xcode_settings[:applicationName]
+  bundleName          = xcode_settings[:bundleName]
   
-  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{applicationName}.app.dSYM"
+  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{bundleName}.app.dSYM"
   
 end
 
@@ -84,7 +84,7 @@ def remoteDsymPath (xcode_settings , deploy)
   applicationName     = xcode_settings[:applicationName]
   ipaName             = ipaName(xcode_settings , deploy)
   remotePath          = deploy["uploadServer"]["path"]
-  pjServerConf        = deploy["PJServerConf"]
+  pjServerConf        = deploy["infosPlist"]["PJServerConf"]
   fileName            = fileNameForEnv pjServerConf
   
   dsymName = "#{applicationName}.#{buildNumber}.app.dSYM.zip"
@@ -112,7 +112,7 @@ def remoteDeployPlistPath (xcode_settings , deploy)
   applicationName     = xcode_settings[:applicationName]
   ipaName             = ipaName(xcode_settings , deploy)
   remotePath          = deploy["uploadServer"]["path"]
-  pjServerConf        = deploy["PJServerConf"]
+  pjServerConf        = deploy["infosPlist"]["PJServerConf"]
   fileName            = fileNameForEnv pjServerConf
   
   plistName = "app_#{fileName}.plist"
