@@ -68,8 +68,8 @@ def add_version_if_needed (xcode_settings , deploy)
   appName               = infoPlist['PJDistName']
   appFullName           = "#{appName}.#{appVersion}"
   
-  smallVersion          = dtmobXMLVersionForEnv(deploy["PJServerConf"]).downcase
-  versioned             = dtmobXMLVersionForEnv deploy["PJServerConf"]
+  smallVersion          = dtmobXMLVersionForEnv(deploy["infosPlist"]["PJServerConf"]).downcase
+  versioned             = dtmobXMLVersionForEnv deploy["infosPlist"]["PJServerConf"]
   appFullNameVersioned  = "#{appFullName} - #{versioned}"
   
   path = deploy["uploadServer"]["path"]

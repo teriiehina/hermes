@@ -8,7 +8,7 @@ def appPath (xcode_settings , deploy)
   buildNumber         = xcode_settings[:buildNumber]
   applicationName     = xcode_settings[:applicationName]
   
-  "#{buildDirectory}/#{buildConfiguration}-iphoneos/PagesJaunes.app"
+  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{applicationName}.app"
   
 end
 
@@ -54,7 +54,7 @@ def dsymPath (xcode_settings , deploy)
   buildDirectory      = xcode_settings[:buildDirectory]
   buildConfiguration  = xcode_settings[:buildConfiguration]
   
-  "#{buildDirectory}/#{buildConfiguration}-iphoneos/PagesJaunes.app.dSYM"
+  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{applicationName}.app.dSYM"
   
 end
 
