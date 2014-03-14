@@ -32,7 +32,7 @@ def deploy (deployments)
     generateIpa           xcode_settings , deploy
     generateDeployPlist   xcode_settings , deploy
 
-    uploadArtefacts       xcode_settings , deploy
+    # uploadArtefacts       xcode_settings , deploy
     
     #updateParse         xcode_settings , deploy # to do
     #tagGit              xcode_settings , deploy
@@ -81,6 +81,10 @@ def add_version_if_needed (xcode_settings , deploy)
   deploy["uploadServer"]["path"]                = path
   deploy["uploadServer"]["publicURL"]           = publicURL
   deploy["uploadServer"]["applicationVersion"]  = appFullNameVersioned
+  
+  puts deploy["uploadServer"]["path"]
+  puts deploy["uploadServer"]["publicURL"]
+  puts deploy["uploadServer"]["applicationVersion"]
   
   deploy["infosPlist"]["CFBundleDisplayName"]   = "#{appVersion}.#{smallVersion.upcase}"
   
