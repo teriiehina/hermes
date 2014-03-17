@@ -13,7 +13,7 @@ require_relative 'parse.rb'
 require_relative 'git.rb'
 require_relative 'upload.rb'
 
-def deploy (deployments)
+def deploy (deployments , should_upload = true)
 
   #unlock_keychain
 
@@ -32,7 +32,9 @@ def deploy (deployments)
     generateIpa           xcode_settings , deploy
     generateDeployPlist   xcode_settings , deploy
 
-    # uploadArtefacts       xcode_settings , deploy
+    if should_upload
+      uploadArtefacts xcode_settings , deploy
+    end
     
     #updateParse         xcode_settings , deploy # to do
     #tagGit              xcode_settings , deploy
