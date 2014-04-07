@@ -40,6 +40,8 @@ def buildApp (xcode_settings , deploy)
   xctool_command += " -reporter json-compilation-database:\"#{buildDirectory}/compile_commands.json\""
   xctool_command += " -configuration #{buildConfiguration}"
   xctool_command += " BUILD_DIR=\"#{buildDirectory}\""
+  xctool_command += " ONLY_ACTIVE_ARCH=NO"
+  xctool_command += " ARCHS=\"armv7 armv7s\""
   xctool_command += extra_commands
   
   puts xctool_command

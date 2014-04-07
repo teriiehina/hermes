@@ -13,7 +13,7 @@ require_relative 'parse.rb'
 require_relative 'git.rb'
 require_relative 'upload.rb'
 
-def deploy (deployments , should_upload = true)
+def build_and_deploy (deployments , should_upload = true)
 
   #unlock_keychain
 
