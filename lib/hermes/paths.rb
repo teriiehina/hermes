@@ -101,6 +101,15 @@ def plistName (settings)
   
 end
 
+def publicPlistURL (settings)
+  
+  publicURL  = settings[:deploy]["uploadServer"]["plist"][0]["publicURL"]  
+  plistName   = plistName (settings)
+  
+  "#{publicURL}/#{plistName}"
+  
+end
+
 #
 # Dsym
 #

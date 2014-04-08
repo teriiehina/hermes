@@ -26,22 +26,22 @@ def build_and_deploy (deployments , should_upload = true)
     settings = load_settings deploy
 
     puts "Création de l'.app"
-    buildApp settings
-    updateBuild settings
+    # buildApp settings
+    # updateBuild settings
     
     puts "Création de l'.ipa et du .plist"
-    buildArtefacts settings
+    # buildArtefacts settings
 
     if should_upload
       
       puts "Téléversement de l'.ipa et du .plist"
-      uploadArtefacts settings
+      # uploadArtefacts settings
 
       puts "Mise à jour de Parse"
       updateParse settings
 
       puts "Création d'un tag git"
-      tagGit settings
+      # tagGit settings
       
     end
     

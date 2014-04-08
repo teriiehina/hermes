@@ -119,7 +119,7 @@ def createFolders(ftp_connection , folders)
   ftp_connection.chdir(folders[0])
   liste = ftp_connection.list
   
-  if ! (liste.any? { |element| element.include? folders[1]})
+  if ! (liste.any? { |element| element.include? folders[1]} )
     ftp_connection.mkdir(folders[1])
   end
   
