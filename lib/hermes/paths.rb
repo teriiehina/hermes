@@ -47,15 +47,15 @@ def ipaPath (xcode_settings , deploy)
   
 end
 
-def remoteIpaPath (xcode_settings , deploy)
-  
+
+def remoteIpaPath (xcode_settings , deploy , destination)
+
   ipaName             = ipaName(xcode_settings , deploy)
-  remotePath          = deploy["uploadServer"]["path"]
+  remotePath          = destination["path"]
   
   "#{remotePath}/#{ipaName}"
   
 end
-
 
 
 def dsymPath (xcode_settings , deploy)
@@ -85,18 +85,13 @@ def zippedDsymPath (xcode_settings , deploy)
   
 end
 
-def remoteDsymPath (xcode_settings , deploy)
+def remoteDsymPath (xcode_settings , deploy , destination)
   
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
   buildNumber         = xcode_settings[:buildNumber]
-  applicationName     = xcode_settings[:applicationName]
-  ipaName             = ipaName(xcode_settings , deploy)
-  remotePath          = deploy["uploadServer"]["path"]
-  pjServerConf        = deploy["infosPlist"]["PJServerConf"]
-  fileName            = fileNameForEnv pjServerConf
+  applicationName     = xcode_settings[:applicationName]  
   
-  dsymName = "#{applicationName}.#{buildNumber}.app.dSYM.zip"
+  remotePath  = destination["path"]  
+  dsymName    = "#{applicationName}.#{buildNumber}.app.dSYM.zip"
   
   "#{remotePath}/#{dsymName}"
   
@@ -113,20 +108,20 @@ def deployPlistPath (xcode_settings , deploy)
 
 end
 
-def remoteDeployPlistPath (xcode_settings , deploy)
+def remoteDeployPlistPath (xcode_settings , deploy , destination)
   
   buildDirectory      = xcode_settings[:buildDirectory]
   buildConfiguration  = xcode_settings[:buildConfiguration]
   buildNumber         = xcode_settings[:buildNumber]
   applicationName     = xcode_settings[:applicationName]
   ipaName             = ipaName(xcode_settings , deploy)
-  remotePath          = deploy["uploadServer"]["path"]
+  remotePath          = destination["path"]
   pjServerConf        = deploy["infosPlist"]["PJServerConf"]
   fileName            = fileNameForEnv pjServerConf
   
   plistName = "app_#{fileName}.plist"
   
-  "#{remotePath}/#{plistName}"
+  "./test/#{plistName}"
   
 end
 
