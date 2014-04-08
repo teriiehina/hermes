@@ -42,7 +42,7 @@ def updateBuild (settings)
   
   puts "Mise-à-jour du fichier PagesJaunes-Info.plist"
   
-  projectInfosPath  = plistInAppPath(settings , settings[:deploy])
+  projectInfosPath  = plistInAppPath(settings)
   # projectInfos      = Plist::parse_xml(projectInfosPath)
   
   plist         = CFPropertyList::List.new(file: projectInfosPath)

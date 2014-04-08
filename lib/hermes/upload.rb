@@ -10,17 +10,17 @@ require 'date'
 
 require_relative 'paths.rb'
 
-def uploadArtefacts(settings , deploy)
+def uploadArtefacts(settings)
   
-  uploadPlist(settings , deploy)
-  uploadIPA(settings , deploy)
+  uploadPlist(settings)
+  uploadIPA(settings)
 
   # legacy, shouldn't be needed when the old DTAppStore will no more be used.
-  updateDTMobXML settings , deploy
+  updateDTMobXML settings
   
 end
 
-def uploadFiles(settings , deploy , destination , files_to_upload)
+def uploadFiles(settings , destination , files_to_upload)
   
   host    = destination["host"]
   login   = destination["login"]
@@ -40,34 +40,34 @@ def uploadFiles(settings , deploy , destination , files_to_upload)
   
 end
 
-def uploadIPA(settings , deploy)
+def uploadIPA(settings)
 
-  deploy["uploadServer"]["ipa"].each do |destination|
+  settings[:deploy]["uploadServer"]["ipa"].each do |destination|
     
-    ipaPath         = ipaPath (settings , deploy)
-    remoteIpaPath   = remoteIpaPath (settings , deploy , destination)
+    ipaPath         = ipaPath (settings)
+    remoteIpaPath   = remoteIpaPath (settings , destination)
     
-    dsymPath        = zippedDsymPath(settings , deploy)
-    remoteDsymPath  = remoteDsymPath(settings , deploy , destination)
+    dsymPath        = zippedDsymPath(settings)
+    remoteDsymPath  = remoteDsymPath(settings , destination)
     
     files_to_upload = [[ipaPath , remoteIpaPath] , [dsymPath , remoteDsymPath]]
     
-    uploadFiles(settings , deploy , destination , files_to_upload)
+    uploadFiles(settings , destination , files_to_upload)
     
   end
   
 end
 
-def uploadPlist(settings , deploy)
+def uploadPlist(settings)
   
-  deploy["uploadServer"]["plist"].each do |destination|
+  settings[:deploy]["uploadServer"]["plist"].each do |destination|
     
-    deployPlistPath         = deployPlistPath       (settings , deploy)
-    remoteDeployPlistPath   = remoteDeployPlistPath (settings , deploy ,destination)
+    deployPlistPath         = deployPlistPath       (settings)
+    remoteDeployPlistPath   = remoteDeployPlistPath (settings ,destination)
     
     files_to_upload = [[deployPlistPath , remoteDeployPlistPath]]
     
-    uploadFiles(settings , deploy , destination , files_to_upload)
+    uploadFiles(settings , destination , files_to_upload)
     
   end
   
@@ -127,7 +127,7 @@ def uploadViaFTP(host, usermame , password , path, files_to_upload)
 end
 
 
-def updateDTMobXML (settings , deploy)
+def updateDTMobXML (settings)
   
   # après upload des artefacts, on peut mettre à jour le fichier dtmob.xml
   # et pourquoi pas dsem.xml
@@ -136,13 +136,13 @@ def updateDTMobXML (settings , deploy)
   
   return
   
-  host        = deploy["uploadServer"]["host"]
-  login       = deploy["uploadServer"]["login"]
-  path        = deploy["uploadServer"]["path"]
+  host        = settings[:deploy]["uploadServer"]["ipa"][0]["host"]
+  login       = settings[:deploy]["uploadServer"]["ipa"][0]["login"]
+  path        = settings[:deploy]["uploadServer"]["ipa"][0]["path"]
   buildNumber = settings[:buildNumber]
   
-  dtmobApplicationName    = deploy["uploadServer"]["applicationTitle"]
-  dtmobApplicationVersion = deploy["uploadServer"]["applicationVersion"]
+  dtmobApplicationName    = settings[:deploy]["uploadServer"]["ipa"][0]["applicationTitle"]
+  dtmobApplicationVersion = settings[:deploy]["uploadServer"]["ipa"][0]["applicationVersion"]
   
   Net::SCP.start(host, login) do |scp|
     puts 'Mise-à-jour du fichier dtmob.xml'

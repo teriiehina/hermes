@@ -26,22 +26,22 @@ def build_and_deploy (deployments , should_upload = true)
     settings = load_settings deploy
 
     puts "Création de l'.app"
-    buildApp        settings
-    updateBuild     settings
+    buildApp settings
+    updateBuild settings
     
     puts "Création de l'.ipa et du .plist"
-    buildArtefacts  settings , deploy
+    buildArtefacts settings
 
     if should_upload
       
       puts "Téléversement de l'.ipa et du .plist"
-      uploadArtefacts   settings , deploy
+      uploadArtefacts settings
 
       puts "Mise à jour de Parse"
-      updateParse       settings , deploy
+      updateParse settings
 
       puts "Création d'un tag git"
-      tagGit            settings , deploy
+      tagGit settings
       
     end
     
@@ -49,9 +49,9 @@ def build_and_deploy (deployments , should_upload = true)
 
 end
 
-def buildArtefacts (xcode_settings , deploy)
-  generateIpa   xcode_settings , deploy
-  generatePlist xcode_settings , deploy
+def buildArtefacts (xcode_settings)
+  generateIpa   xcode_settings
+  generatePlist xcode_settings
 end
 
 # def unlock_keychain

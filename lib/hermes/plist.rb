@@ -7,7 +7,7 @@ require 'parse-ruby-client'
 require_relative 'paths.rb'
 
 
-def generatePlist (settings , deploy)
+def generatePlist (settings)
   
   puts "Creation du plist"
   
@@ -17,7 +17,7 @@ def generatePlist (settings , deploy)
   projectInfosPath    = settings[:projectInfosPath]
   
   projectInfos    = Plist::parse_xml(projectInfosPath)
-  deployPlistPath = deployPlistPath(settings , deploy)
+  deployPlistPath = deployPlistPath(settings)
   
   deployPlist = Hash.new
   items       = Array.new
@@ -28,17 +28,17 @@ def generatePlist (settings , deploy)
   asset       = Hash.new
   asset['kind'] = 'software-package'
   
-  puts "test: #{deploy["uploadServer"]["ipa"][0]["publicURL"]}"
+  puts "test: #{settings[:deploy]["uploadServer"]["ipa"][0]["publicURL"]}"
   
-  asset['url']  = deploy["uploadServer"]["ipa"][0]["publicURL"] + "/" + ipaName(settings , deploy)
+  asset['url']  = settings[:deploy]["uploadServer"]["ipa"][0]["publicURL"] + "/" + ipaName(settings)
 
   assets.push asset
   
   metadata    = Hash.new
-  metadata['bundle-identifier'] = deploy["infosPlist"]["CFBundleIdentifier"]
+  metadata['bundle-identifier'] = settings[:deploy]["infosPlist"]["CFBundleIdentifier"]
   metadata['bundle-version']    = projectInfos['CFBundleVersion']
   metadata['subtitle']          = 'by SoLocal'
-  metadata['title']             = deploy["infosPlist"]["CFBundleDisplayName"]
+  metadata['title']             = settings[:deploy]["infosPlist"]["CFBundleDisplayName"]
   metadata['kind']              = 'software'
   
   item['assets']    = assets

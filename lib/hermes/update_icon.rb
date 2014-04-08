@@ -8,18 +8,18 @@ require_relative 'paths.rb'
 # http://www.merowing.info/2013/03/overlaying-application-version-on-top-of-your-icon/
 
 
-def updateIcon (settings , deploy)
+def updateIcon (settings)
 
   iconsBasePath = "#{settings[:projectDirectory]}/PagesJaunes/Data/Images/SPLASH+ICONE"
   icons = [["icone_base.png" , "icone.png"] , ["icone_base@2x.png" , "icone@2x.png"]]
   
-  should_update_icon = deploy["icon"]["addExtraInfosInIcon"]
+  should_update_icon = settings[:deploy]["icon"]["addExtraInfosInIcon"]
   
   # if !should_update_icon
   #   return
   # end
   
-  basePath = appPath(settings , deploy)
+  basePath = appPath(settings)
 
   icons.each do |files|
     
@@ -29,13 +29,13 @@ def updateIcon (settings , deploy)
     puts "Modification de #{source_file}"
     puts "vers #{dest_file}"
 
-    addInfosToIcon settings , deploy , source_file , dest_file
+    addInfosToIcon settings , source_file , dest_file
     
   end
 
 end
 
-def addInfosToIcon (settings , deploy , source_file , dest_file)
+def addInfosToIcon (settings , source_file , dest_file)
 
   projectInfosPath  = settings[:projectInfosPath]
   projectInfos      = Plist::parse_xml(projectInfosPath)
@@ -43,11 +43,11 @@ def addInfosToIcon (settings , deploy , source_file , dest_file)
   version       = projectInfos["CFBundleVersion"]
   commit        = `git rev-parse --short HEAD`.strip
   branch        = `git rev-parse --abbrev-ref HEAD`.strip
-  pjServerConf  = fileNameForEnv deploy["PJServerConf"]
+  pjServerConf  = fileNameForEnv settings[:deploy]["PJServerConf"]
     
   width    = `identify -format %w #{source_file}`
   
-  caption = iconCaptionForDeploy deploy
+  caption = iconCaptionForDeploy settings[:deploy]
 
   command  = "convert -background '#0008'"
   command += " -fill white -gravity center"

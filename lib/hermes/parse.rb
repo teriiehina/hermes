@@ -4,17 +4,17 @@ require 'bundler/setup'
 require 'plist'
 require 'parse-ruby-client'
 
-def updateParse (settings , deploy)
+def updateParse (settings)
 
   return
   
-  Parse.init  application_id: deploy["parse"]["appId"],
-              api_key:        deploy["parse"]["apiKey"]
+  Parse.init  application_id: settings[:deploy]["parse"]["appId"],
+              api_key:        settings[:deploy]["parse"]["apiKey"]
 
   newAppVersion                   = Parse::Object.new("ApplicationVersion")
-  appOnParse                      = Parse::Pointer.new({"className" => "Application", "objectId" => deploy["parse"]["dtStoreAppId"]})
+  appOnParse                      = Parse::Pointer.new({"className" => "Application", "objectId" => settings[:deploy]["parse"]["dtStoreAppId"]})
   newAppVersion["applicationId"]  = appOnParse
-  newAppVersion["level"]          = deploy["parse"]["dtStoreAppLevel"]
+  newAppVersion["level"]          = settings[:deploy]["parse"]["dtStoreAppLevel"]
 
   result = newAppVersion.save
   puts result

@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-def appPath (settings , deploy)
+def appPath (settings)
   
   buildDirectory      = settings[:buildDirectory]
   buildConfiguration  = settings[:buildConfiguration]
@@ -12,7 +12,7 @@ def appPath (settings , deploy)
   
 end
 
-def plistInAppPath (settings , deploy)
+def plistInAppPath (settings)
   
   buildDirectory      = settings[:buildDirectory]
   buildConfiguration  = settings[:buildConfiguration]
@@ -21,36 +21,36 @@ def plistInAppPath (settings , deploy)
   "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{bundleName}.app/Info.plist"  
 end
 
-def ipaName(settings , deploy)
+def ipaName (settings)
 
   buildDirectory      = settings[:buildDirectory]
   buildConfiguration  = settings[:buildConfiguration]
   buildNumber         = settings[:buildNumber]
   applicationName     = settings[:applicationName]
   
-  pjServerConf        = deploy["infosPlist"]["PJServerConf"]
+  pjServerConf        = settings[:deploy]["infosPlist"]["PJServerConf"]
   cimob               = fileNameForEnv pjServerConf
 
   "#{applicationName}.#{cimob}.#{buildNumber}.ipa"
   
 end
 
-def ipaPath (settings , deploy)
+def ipaPath (settings)
   
   buildDirectory      = settings[:buildDirectory]
   buildConfiguration  = settings[:buildConfiguration]
   buildNumber         = settings[:buildNumber]
   applicationName     = settings[:applicationName]
-  ipaName             = ipaName(settings , deploy)
+  ipaName             = ipaName(settings)
   
   "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{ipaName}"
   
 end
 
 
-def remoteIpaPath (settings , deploy , destination)
+def remoteIpaPath (settings , destination)
 
-  ipaName             = ipaName(settings , deploy)
+  ipaName             = ipaName(settings)
   remotePath          = destination["path"]
   
   "#{remotePath}/#{ipaName}"
@@ -58,7 +58,7 @@ def remoteIpaPath (settings , deploy , destination)
 end
 
 
-def dsymPath (settings , deploy)
+def dsymPath (settings)
   
   buildDirectory      = settings[:buildDirectory]
   buildConfiguration  = settings[:buildConfiguration]
@@ -68,7 +68,7 @@ def dsymPath (settings , deploy)
   
 end
 
-def savedDsymPath (settings , deploy)
+def savedDsymPath (settings)
   
   buildDirectory      = settings[:buildDirectory]
   buildConfiguration  = settings[:buildConfiguration]
@@ -79,13 +79,13 @@ def savedDsymPath (settings , deploy)
   
 end
 
-def zippedDsymPath (settings , deploy)
+def zippedDsymPath (settings)
   
-  savedDsymPath(settings , deploy) + ".zip"
+  savedDsymPath(settings) + ".zip"
   
 end
 
-def remoteDsymPath (settings , deploy , destination)
+def remoteDsymPath (settings , destination)
   
   buildNumber         = settings[:buildNumber]
   applicationName     = settings[:applicationName]  
@@ -97,7 +97,7 @@ def remoteDsymPath (settings , deploy , destination)
   
 end
 
-def deployPlistPath (settings , deploy)
+def deployPlistPath (settings)
 
   buildDirectory      = settings[:buildDirectory]
   buildConfiguration  = settings[:buildConfiguration]
@@ -108,15 +108,15 @@ def deployPlistPath (settings , deploy)
 
 end
 
-def remoteDeployPlistPath (settings , deploy , destination)
+def remoteDeployPlistPath (settings , destination)
   
   buildDirectory      = settings[:buildDirectory]
   buildConfiguration  = settings[:buildConfiguration]
   buildNumber         = settings[:buildNumber]
   applicationName     = settings[:applicationName]
-  ipaName             = ipaName(settings , deploy)
+  ipaName             = ipaName(settings)
   remotePath          = destination["path"]
-  pjServerConf        = deploy["infosPlist"]["PJServerConf"]
+  pjServerConf        = settings[:deploy]["infosPlist"]["PJServerConf"]
   fileName            = fileNameForEnv pjServerConf
   
   plistName = "app_#{fileName}.plist"

@@ -6,7 +6,7 @@ require 'parse-ruby-client'
 
 require_relative 'paths.rb'
 
-def generateIpa (settings , deploy)
+def generateIpa settings
   
   puts "Génération de l'ipa désactivée pour le moment"
   return
@@ -16,12 +16,12 @@ def generateIpa (settings , deploy)
   buildNumber         = settings[:buildNumber]
   applicationName     = settings[:applicationName]
   
-  appPath       = appPath(settings , deploy)
-  ipaPath       = ipaPath(settings , deploy)
+  appPath       = appPath(settings)
+  ipaPath       = ipaPath(settings)
   
-  dsymPath        = dsymPath(settings , deploy)
-  savedDsymPath   = savedDsymPath(settings , deploy)
-  zippedDsymPath  = zippedDsymPath(settings , deploy)
+  dsymPath        = dsymPath(settings)
+  savedDsymPath   = savedDsymPath(settings)
+  zippedDsymPath  = zippedDsymPath(settings)
 
   signingIdentity     = settings[:signingIdentity]
   provisioningProfile = settings[:provisioningProfile]

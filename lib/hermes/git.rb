@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-def tagGit (settings , deploy)
+def tagGit (settings)
 
   return
   
