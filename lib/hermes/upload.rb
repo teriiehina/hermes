@@ -27,7 +27,7 @@ def uploadFiles(settings , destination , files_to_upload)
   path    = destination["path"]
   
   if (destination["protocol"] == "ssh")
-    uploadViaSSH(host , login , files_to_upload)
+    uploadViaSSH(host , login , path, files_to_upload)
 
   elsif (destination["protocol"] == "ftp")
     password = destination["password"]
@@ -63,7 +63,7 @@ def uploadPlist(settings)
   settings[:deploy]["uploadServer"]["plist"].each do |destination|
     
     deployPlistPath         = deployPlistPath       (settings)
-    remoteDeployPlistPath   = remoteDeployPlistPath (settings ,destination)
+    remoteDeployPlistPath   = remoteDeployPlistPath (settings , destination)
     
     files_to_upload = [[deployPlistPath , remoteDeployPlistPath]]
     
@@ -75,11 +75,10 @@ end
 
 # files_to_upload is an array of arrays
 # that must be like [local_file_path , remote_file_path]
-def uploadViaSSH(host , login , files_to_upload)
+def uploadViaSSH(host , login , path, files_to_upload)
 
   # on vérifie si le dossier existe
-  version = "./iphone_rf/IrishCoffee.7.2"
-  check_command = "if [ ! -d \"#{version}\" ]; then mkdir \"#{version}\"; fi"
+  check_command = "if [ ! -d \"#{path}\" ]; then mkdir \"#{path}\"; fi"
   
   Net::SSH.start(host, login) do |ssh|
     # capture all stderr and stdout output from a remote process
@@ -98,26 +97,54 @@ def uploadViaSSH(host , login , files_to_upload)
 
 end
 
+def checkPathOnFTP(host, usermame , password , path)
+  
+  folders = path.split("/")
+  
+  ftp = Net::FTP.new(host)
+  ftp.login(usermame , password)
+  
+  createFolders(ftp , folders)
+  
+  ftp.close
+  
+end
+
+def createFolders(ftp_connection , folders)
+  
+  if folders.length < 2
+    return
+  end
+  
+  ftp_connection.chdir(folders[0])
+  liste = ftp_connection.list
+  
+  if ! (liste.any? { |element| element.include? folders[1]})
+    ftp_connection.mkdir(folders[1])
+  end
+  
+  createFolders(ftp_connection , folders.slice(1 , folders.length - 1))
+  
+end
+
+
 # files_to_upload is an array of arrays
 # that must be like [local_file_path , remote_file_path]
 def uploadViaFTP(host, usermame , password , path, files_to_upload)
   
+  checkPathOnFTP(host, usermame , password , path)
+  
+  # on est sûr d'avoir le dossier qu'il faut
+  # on fait la vraie connexion
+  
   ftp = Net::FTP.new(host)
   
   ftp.login(usermame , password)
-  ftp.chdir(path)
-  liste = ftp.list
   
-  puts "liste: #{liste}"
-  
-  target_path = "test"
-  
-  if ! (liste.any? { |element| element.include? target_path})
-    puts "le dossier #{target_path} n'existe pas."
-    ftp.mkdir(target_path)
-  end
+  # ftp.chdir(path)
   
   files_to_upload.each do |names|
+    puts "host: #{host}"
     puts 'Envoi du fichier ' + names[0] + ' vers ' + names[1]
     ftp.putbinaryfile(names[0].to_s, names[1])
   end

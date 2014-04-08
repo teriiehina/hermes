@@ -28,8 +28,6 @@ def generatePlist (settings)
   asset       = Hash.new
   asset['kind'] = 'software-package'
   
-  puts "test: #{settings[:deploy]["uploadServer"]["ipa"][0]["publicURL"]}"
-  
   asset['url']  = settings[:deploy]["uploadServer"]["ipa"][0]["publicURL"] + "/" + ipaName(settings)
 
   assets.push asset
@@ -47,8 +45,6 @@ def generatePlist (settings)
   items.push item
   deployPlist['items'] = items
   Plist::Emit.save_plist(deployPlist , deployPlistPath)
-  
-  puts "Plist : " + deployPlistPath
   
 end
 

@@ -1,6 +1,10 @@
 require 'rubygems'
 require 'bundler/setup'
 
+#
+# Application
+#
+
 def appPath (settings)
   
   buildDirectory      = settings[:buildDirectory]
@@ -12,14 +16,9 @@ def appPath (settings)
   
 end
 
-def plistInAppPath (settings)
-  
-  buildDirectory      = settings[:buildDirectory]
-  buildConfiguration  = settings[:buildConfiguration]
-  bundleName          = settings[:bundleName]
-  
-  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{bundleName}.app/Info.plist"  
-end
+#
+# IPA
+#
 
 def ipaName (settings)
 
@@ -47,7 +46,6 @@ def ipaPath (settings)
   
 end
 
-
 def remoteIpaPath (settings , destination)
 
   ipaName             = ipaName(settings)
@@ -57,6 +55,55 @@ def remoteIpaPath (settings , destination)
   
 end
 
+
+#
+# Plist
+#
+
+def plistInAppPath (settings)
+  
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  bundleName          = settings[:bundleName]
+  
+  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{bundleName}.app/Info.plist"  
+end
+
+def deployPlistPath (settings)
+
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  buildNumber         = settings[:buildNumber]
+  applicationName     = settings[:applicationName]
+  plistName           = plistName settings
+  
+  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{plistName}"
+
+end
+
+def remoteDeployPlistPath (settings , destination)
+  
+  remotePath  = destination["path"]  
+  plistName   = plistName (settings)
+  
+  "#{remotePath}/#{plistName}"
+  
+end
+
+def plistName (settings)
+  
+  applicationName     = settings[:applicationName]
+  pjServerConf        = settings[:deploy]["infosPlist"]["PJServerConf"]
+  cimob               = fileNameForEnv pjServerConf
+  buildNumber         = settings[:buildNumber]
+  
+  "#{applicationName}.#{cimob}.#{buildNumber}.plist"
+  
+end
+
+#
+# Dsym
+#
 
 def dsymPath (settings)
   
@@ -97,33 +144,9 @@ def remoteDsymPath (settings , destination)
   
 end
 
-def deployPlistPath (settings)
-
-  buildDirectory      = settings[:buildDirectory]
-  buildConfiguration  = settings[:buildConfiguration]
-  buildNumber         = settings[:buildNumber]
-  applicationName     = settings[:applicationName]
-  
-  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{applicationName}.#{buildNumber}.plist"
-
-end
-
-def remoteDeployPlistPath (settings , destination)
-  
-  buildDirectory      = settings[:buildDirectory]
-  buildConfiguration  = settings[:buildConfiguration]
-  buildNumber         = settings[:buildNumber]
-  applicationName     = settings[:applicationName]
-  ipaName             = ipaName(settings)
-  remotePath          = destination["path"]
-  pjServerConf        = settings[:deploy]["infosPlist"]["PJServerConf"]
-  fileName            = fileNameForEnv pjServerConf
-  
-  plistName = "app_#{fileName}.plist"
-  
-  "./test/#{plistName}"
-  
-end
+#
+# Extra
+#
 
 def fileNameForEnv(pjServerConf)
 
