@@ -12,6 +12,15 @@ def appPath (xcode_settings , deploy)
   
 end
 
+def plistInAppPath (xcode_settings , deploy)
+  
+  buildDirectory      = xcode_settings[:buildDirectory]
+  buildConfiguration  = xcode_settings[:buildConfiguration]
+  bundleName          = xcode_settings[:bundleName]
+  
+  "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{bundleName}.app/Info.plist"  
+end
+
 def ipaName(xcode_settings , deploy)
 
   buildDirectory      = xcode_settings[:buildDirectory]

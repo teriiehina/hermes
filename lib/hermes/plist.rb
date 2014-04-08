@@ -7,7 +7,7 @@ require 'parse-ruby-client'
 require_relative 'paths.rb'
 
 
-def generateDeployPlist (xcode_settings , deploy)
+def generatePlist (xcode_settings , deploy)
   
   puts "Creation du plist"
   
@@ -27,7 +27,10 @@ def generateDeployPlist (xcode_settings , deploy)
   assets      = Array.new
   asset       = Hash.new
   asset['kind'] = 'software-package'
-  asset['url']  = deploy["uploadServer"]["publicURL"] + "/" + ipaName(xcode_settings , deploy)
+  
+  puts "test: #{deploy["uploadServer"]["ipa"][0]["publicURL"]}"
+  
+  asset['url']  = deploy["uploadServer"]["ipa"][0]["publicURL"] + "/" + ipaName(xcode_settings , deploy)
 
   assets.push asset
   

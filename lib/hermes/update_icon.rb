@@ -10,18 +10,24 @@ require_relative 'paths.rb'
 
 def updateIcon (xcode_settings , deploy)
 
+  iconsBasePath = "#{xcode_settings[:projectDirectory]}/PagesJaunes/Data/Images/SPLASH+ICONE"
   icons = [["icone_base.png" , "icone.png"] , ["icone_base@2x.png" , "icone@2x.png"]]
   
   should_update_icon = deploy["icon"]["addExtraInfosInIcon"]
   
-  if !should_update_icon
-    return
-  end
+  # if !should_update_icon
+  #   return
+  # end
+  
+  basePath = appPath(xcode_settings , deploy)
 
   icons.each do |files|
     
-    source_file = "#{xcode_settings[:projectDirectory]}/#{files[0]}"
-    dest_file   = "#{xcode_settings[:projectDirectory]}/#{files[1]}"
+    source_file = "#{iconsBasePath}/#{files[0]}"
+    dest_file   = "#{basePath}/#{files[1]}"
+    
+    puts "Modification de #{source_file}"
+    puts "vers #{dest_file}"
 
     addInfosToIcon xcode_settings , deploy , source_file , dest_file
     

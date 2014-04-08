@@ -5,8 +5,6 @@ require 'plist'
 
 def buildApp (xcode_settings , deploy)
   
-  projectInfosPath    = xcode_settings[:projectInfosPath]
-  
   applicationName     = xcode_settings[:applicationName]
   projectDirectory    = xcode_settings[:projectDirectory]
   
@@ -17,17 +15,6 @@ def buildApp (xcode_settings , deploy)
   buildConfiguration  = xcode_settings[:buildConfiguration]
   buildDirectory      = xcode_settings[:buildDirectory]
   
-  puts "TODO: Mise-à-jour du fichier PagesJaunes-Info.plist"
-  
-  projectInfos = Plist::parse_xml(projectInfosPath)
-  
-  projectInfos['CFBundleDisplayName'] = deploy["infosPlist"]["CFBundleDisplayName"]
-  projectInfos['CFBundleIdentifier']  = deploy["infosPlist"]["CFBundleIdentifier"]
-  projectInfos['PJServerConf']        = deploy["infosPlist"]["PJServerConf"]
-  
-  Plist::Emit.save_plist(projectInfos , projectInfosPath)
-  
-  puts "DONE: Mise-à-jour du fichier PagesJaunes-Info.plist"
   puts "Compilation de l'application #{applicationName}"
   
   build_command  = "xcodebuild"
