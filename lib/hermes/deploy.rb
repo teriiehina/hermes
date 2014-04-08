@@ -26,8 +26,8 @@ def build_and_deploy (deployments , should_upload = true)
     settings = load_settings deploy
 
     puts "Création de l'.app"
-    buildApp        settings , deploy
-    updateBuild     settings , deploy
+    buildApp        settings
+    updateBuild     settings
     
     puts "Création de l'.ipa et du .plist"
     buildArtefacts  settings , deploy

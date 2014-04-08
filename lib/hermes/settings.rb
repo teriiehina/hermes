@@ -4,44 +4,29 @@ require 'bundler/setup'
 
 def load_settings(deploy)
 
-  #
-  # Variable Jenkins
-  #
 
-  projectDirectory      = deploy["paths"]["projectAbsolutPath"]
-  buildURL              = "#{ENV['BUILD_URL']}"
+  # trouver un moyen d'avoir un numéro incrémental unique
   buildNumber           = "#{ENV['BUILD_NUMBER']}"
-  jobName               = "#{ENV['JOB_NAME']}"
-  
-  buildConfiguration    = deploy["build"]["buildConfiguration"]
-  signingIdentity       = deploy["signing"]["identity"]
-  provisioningProfile   = deploy["signing"]["profile"]
-  
-  provisioningProfile   = "\"#{projectDirectory}/#{provisioningProfile}\""
-
-  #
-  # Variable Xcode
-  #
 
   settings = Hash.new
-
+  
+  settings[:deploy]               = deploy
   
   settings[:applicationName]      = deploy["infosPlist"]["CFBundleDisplayName"]
-  settings[:projectDirectory]     = projectDirectory
+  settings[:projectDirectory]     = deploy["paths"]["projectAbsolutPath"]
 
   settings[:workspaceName]        = deploy["build"]["workspaceName"]
   settings[:projectName]          = deploy["build"]["projectName"]
   settings[:schemeName]           = deploy["build"]["schemeName"]
   settings[:projectInfosPath]     = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["infosPlistRelativePath"]
-  settings[:userConfigPath]       = "#{projectDirectory}/UserConfig.h"
 
   settings[:targetSDK]            = deploy["build"]["targetSDK"]
-  settings[:buildConfiguration]   = buildConfiguration
+  settings[:buildConfiguration]   = deploy["build"]["buildConfiguration"]
   settings[:buildDirectory]       = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["buildRelativePath"]
   settings[:buildNumber]          = deploy["build"]["buildNumber"]
 
-  settings[:signingIdentity]      = signingIdentity
-  settings[:provisioningProfile]  = provisioningProfile
+  settings[:signingIdentity]      = deploy["signing"]["identity"]
+  settings[:provisioningProfile]  = "\"#{deploy["paths"]["projectAbsolutPath"]}/#{deploy["signing"]["profile"]}\""
   
   settings[:bundleName]           = deploy["build"]["schemeName"]
   

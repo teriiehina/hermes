@@ -3,7 +3,7 @@ require 'bundler/setup'
 
 require 'plist'
 
-def buildApp (settings , deploy)
+def buildApp (settings)
   
   puts "Build désactivée pour l'instant"
   return
@@ -36,21 +36,21 @@ def buildApp (settings , deploy)
   
 end
 
-def updateBuild (settings , deploy)
+def updateBuild (settings)
   
-  # updateIcon settings , deploy
+  # updateIcon settings , settings[:deploy]
   
   puts "Mise-à-jour du fichier PagesJaunes-Info.plist"
   
-  projectInfosPath  = plistInAppPath(settings , deploy)
+  projectInfosPath  = plistInAppPath(settings , settings[:deploy])
   # projectInfos      = Plist::parse_xml(projectInfosPath)
   
   plist         = CFPropertyList::List.new(file: projectInfosPath)
   projectInfos  = CFPropertyList.native_types(plist.value)
   
-  projectInfos['CFBundleDisplayName'] = deploy["infosPlist"]["CFBundleDisplayName"]
-  projectInfos['CFBundleIdentifier']  = deploy["infosPlist"]["CFBundleIdentifier"]
-  projectInfos['PJServerConf']        = deploy["infosPlist"]["PJServerConf"]
+  projectInfos['CFBundleDisplayName'] = settings[:deploy]["infosPlist"]["CFBundleDisplayName"]
+  projectInfos['CFBundleIdentifier']  = settings[:deploy]["infosPlist"]["CFBundleIdentifier"]
+  projectInfos['PJServerConf']        = settings[:deploy]["infosPlist"]["PJServerConf"]
   
   # Plist::Emit.save_plist(projectInfos , projectInfosPath)
   plist.value = CFPropertyList.guess(projectInfos)
