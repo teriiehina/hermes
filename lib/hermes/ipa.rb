@@ -25,12 +25,15 @@ def generateIpa (xcode_settings , deploy)
   
   puts "Construction de l'IPA"
   
-  signingCommand =  "/usr/bin/xcrun -sdk iphoneos PackageApplication \
-                                    -v \"#{appPath}\" \
-                                    -o \"#{ipaPath}\" \
-                                    --sign \"#{signingIdentity}\" \
-                                    --embed \"#{provisioningProfile}\""
-                                    
+  signingCommand =  "/usr/bin/xcrun -sdk iphoneos PackageApplication"
+  signingCommand +=  " -v \"#{appPath}\""
+  signingCommand +=  " -o \"#{ipaPath}\""
+  signingCommand +=  " --sign \"#{signingIdentity}\""
+  signingCommand +=  " --embed \"#{provisioningProfile}\""
+  signingCommand +=  " --embed \"#{provisioningProfile}\""
+  signingCommand +=  " | tee \"#{xcode_settings[:buildDirectory]}/PackageApplication.log\""
+  
+  
   puts   signingCommand
   system signingCommand
   

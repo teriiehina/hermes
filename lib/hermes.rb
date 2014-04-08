@@ -28,7 +28,7 @@ module Hermes
     desc "deploy JOB", "will build the job, and then deploy it"
     def deploy(plist)
       
-      puts "building using the file #{plist}"
+      puts "building and deployingll using the file #{plist}"
       
       should_upload = true
       deployments   = Plist::parse_xml(plist)

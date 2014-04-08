@@ -17,8 +17,6 @@ def buildApp (xcode_settings , deploy)
   buildConfiguration  = xcode_settings[:buildConfiguration]
   buildDirectory      = xcode_settings[:buildDirectory]
   
-  extra_commands      = xcode_settings[:extra_commands]
-  
   puts "TODO: Mise-à-jour du fichier PagesJaunes-Info.plist"
   
   projectInfos = Plist::parse_xml(projectInfosPath)
@@ -32,22 +30,22 @@ def buildApp (xcode_settings , deploy)
   puts "DONE: Mise-à-jour du fichier PagesJaunes-Info.plist"
   puts "Compilation de l'application #{applicationName}"
   
-  xctool_command  = "xctool"
-  xctool_command += " -workspace \"#{workspaceName}\""
-  xctool_command += " -scheme \"#{schemeName}\""
-  xctool_command += " -sdk \"#{targetSDK}\""
-  xctool_command += " -reporter pretty"
-  xctool_command += " -reporter json-compilation-database:\"#{buildDirectory}/compile_commands.json\""
-  xctool_command += " -configuration #{buildConfiguration}"
-  xctool_command += " BUILD_DIR=\"#{buildDirectory}\""
-  xctool_command += " ONLY_ACTIVE_ARCH=NO"
-  xctool_command += " ARCHS=\"armv7 armv7s\""
-  xctool_command += extra_commands
+  build_command  = "xcodebuild"
+  build_command += " -workspace \"#{workspaceName}\""
+  build_command += " -scheme \"#{schemeName}\""
+  # build_command += " -sdk \"#{targetSDK}\""
+  # build_command += " -reporter pretty"
+  # build_command += " -reporter json-compilation-database:\"#{buildDirectory}/compile_commands.json\""
+  build_command += " -configuration #{buildConfiguration}"
+  build_command += " BUILD_DIR=\"#{buildDirectory}\""
+  build_command += " clean build"
+  build_command += " | tee \"#{buildDirectory}/xcodebuild.log\""
+  build_command += " | xcpretty -c --report html"
   
-  puts xctool_command
+  puts build_command
   
   Dir.chdir "#{projectDirectory}"
-  system("#{xctool_command} clean build")
+  system("#{build_command}")
   
 end
 

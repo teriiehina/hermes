@@ -19,24 +19,22 @@ def build_and_deploy (deployments , should_upload = true)
 
   deployments.each do |deploy|
     
-    extra_commands = deploy["build"]["clangExtraCommands"]
-  
     puts "Chargement des variables"
-    xcode_settings = load_xcode_settings deploy , extra_commands
+    xcode_settings = load_xcode_settings deploy
     
-    add_version_if_needed xcode_settings , deploy
     updateIcon            xcode_settings , deploy
 
     buildApp              xcode_settings , deploy
+    add_version_if_needed xcode_settings , deploy
 
     generateIpa           xcode_settings , deploy
-    generateDeployPlist   xcode_settings , deploy
+    # generateDeployPlist   xcode_settings , deploy
 
     if should_upload
       uploadArtefacts xcode_settings , deploy
+      #updateParse         xcode_settings , deploy # to do
     end
     
-    #updateParse         xcode_settings , deploy # to do
     #tagGit              xcode_settings , deploy
     
     # to do : soumettre à Apple
