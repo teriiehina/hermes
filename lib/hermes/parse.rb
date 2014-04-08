@@ -4,7 +4,7 @@ require 'bundler/setup'
 require 'plist'
 require 'parse-ruby-client'
 
-def updateParse (xcode_settings , deploy)
+def updateParse (settings , deploy)
 
   return
   

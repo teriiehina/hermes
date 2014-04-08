@@ -2,7 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 
 
-def load_xcode_settings(deploy)
+def load_settings(deploy)
 
   #
   # Variable Jenkins
@@ -23,28 +23,28 @@ def load_xcode_settings(deploy)
   # Variable Xcode
   #
 
-  xcode_settings = Hash.new
+  settings = Hash.new
 
   
-  xcode_settings[:applicationName]      = deploy["infosPlist"]["CFBundleDisplayName"]
-  xcode_settings[:projectDirectory]     = projectDirectory
+  settings[:applicationName]      = deploy["infosPlist"]["CFBundleDisplayName"]
+  settings[:projectDirectory]     = projectDirectory
 
-  xcode_settings[:workspaceName]        = deploy["build"]["workspaceName"]
-  xcode_settings[:projectName]          = deploy["build"]["projectName"]
-  xcode_settings[:schemeName]           = deploy["build"]["schemeName"]
-  xcode_settings[:projectInfosPath]     = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["infosPlistRelativePath"]
-  xcode_settings[:userConfigPath]       = "#{projectDirectory}/UserConfig.h"
+  settings[:workspaceName]        = deploy["build"]["workspaceName"]
+  settings[:projectName]          = deploy["build"]["projectName"]
+  settings[:schemeName]           = deploy["build"]["schemeName"]
+  settings[:projectInfosPath]     = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["infosPlistRelativePath"]
+  settings[:userConfigPath]       = "#{projectDirectory}/UserConfig.h"
 
-  xcode_settings[:targetSDK]            = deploy["build"]["targetSDK"]
-  xcode_settings[:buildConfiguration]   = buildConfiguration
-  xcode_settings[:buildDirectory]       = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["buildRelativePath"]
-  xcode_settings[:buildNumber]          = deploy["build"]["buildNumber"]
+  settings[:targetSDK]            = deploy["build"]["targetSDK"]
+  settings[:buildConfiguration]   = buildConfiguration
+  settings[:buildDirectory]       = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["buildRelativePath"]
+  settings[:buildNumber]          = deploy["build"]["buildNumber"]
 
-  xcode_settings[:signingIdentity]      = signingIdentity
-  xcode_settings[:provisioningProfile]  = provisioningProfile
+  settings[:signingIdentity]      = signingIdentity
+  settings[:provisioningProfile]  = provisioningProfile
   
-  xcode_settings[:bundleName]           = deploy["build"]["schemeName"]
+  settings[:bundleName]           = deploy["build"]["schemeName"]
   
-  xcode_settings
+  settings
 
 end

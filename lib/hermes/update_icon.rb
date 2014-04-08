@@ -8,9 +8,9 @@ require_relative 'paths.rb'
 # http://www.merowing.info/2013/03/overlaying-application-version-on-top-of-your-icon/
 
 
-def updateIcon (xcode_settings , deploy)
+def updateIcon (settings , deploy)
 
-  iconsBasePath = "#{xcode_settings[:projectDirectory]}/PagesJaunes/Data/Images/SPLASH+ICONE"
+  iconsBasePath = "#{settings[:projectDirectory]}/PagesJaunes/Data/Images/SPLASH+ICONE"
   icons = [["icone_base.png" , "icone.png"] , ["icone_base@2x.png" , "icone@2x.png"]]
   
   should_update_icon = deploy["icon"]["addExtraInfosInIcon"]
@@ -19,7 +19,7 @@ def updateIcon (xcode_settings , deploy)
   #   return
   # end
   
-  basePath = appPath(xcode_settings , deploy)
+  basePath = appPath(settings , deploy)
 
   icons.each do |files|
     
@@ -29,15 +29,15 @@ def updateIcon (xcode_settings , deploy)
     puts "Modification de #{source_file}"
     puts "vers #{dest_file}"
 
-    addInfosToIcon xcode_settings , deploy , source_file , dest_file
+    addInfosToIcon settings , deploy , source_file , dest_file
     
   end
 
 end
 
-def addInfosToIcon (xcode_settings , deploy , source_file , dest_file)
+def addInfosToIcon (settings , deploy , source_file , dest_file)
 
-  projectInfosPath  = xcode_settings[:projectInfosPath]
+  projectInfosPath  = settings[:projectInfosPath]
   projectInfos      = Plist::parse_xml(projectInfosPath)
 
   version       = projectInfos["CFBundleVersion"]

@@ -1,32 +1,32 @@
 require 'rubygems'
 require 'bundler/setup'
 
-def appPath (xcode_settings , deploy)
+def appPath (settings , deploy)
   
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  buildNumber         = xcode_settings[:buildNumber]
-  bundleName          = xcode_settings[:bundleName]
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  buildNumber         = settings[:buildNumber]
+  bundleName          = settings[:bundleName]
   
   "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{bundleName}.app"
   
 end
 
-def plistInAppPath (xcode_settings , deploy)
+def plistInAppPath (settings , deploy)
   
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  bundleName          = xcode_settings[:bundleName]
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  bundleName          = settings[:bundleName]
   
   "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{bundleName}.app/Info.plist"  
 end
 
-def ipaName(xcode_settings , deploy)
+def ipaName(settings , deploy)
 
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  buildNumber         = xcode_settings[:buildNumber]
-  applicationName     = xcode_settings[:applicationName]
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  buildNumber         = settings[:buildNumber]
+  applicationName     = settings[:applicationName]
   
   pjServerConf        = deploy["infosPlist"]["PJServerConf"]
   cimob               = fileNameForEnv pjServerConf
@@ -35,22 +35,22 @@ def ipaName(xcode_settings , deploy)
   
 end
 
-def ipaPath (xcode_settings , deploy)
+def ipaPath (settings , deploy)
   
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  buildNumber         = xcode_settings[:buildNumber]
-  applicationName     = xcode_settings[:applicationName]
-  ipaName             = ipaName(xcode_settings , deploy)
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  buildNumber         = settings[:buildNumber]
+  applicationName     = settings[:applicationName]
+  ipaName             = ipaName(settings , deploy)
   
   "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{ipaName}"
   
 end
 
 
-def remoteIpaPath (xcode_settings , deploy , destination)
+def remoteIpaPath (settings , deploy , destination)
 
-  ipaName             = ipaName(xcode_settings , deploy)
+  ipaName             = ipaName(settings , deploy)
   remotePath          = destination["path"]
   
   "#{remotePath}/#{ipaName}"
@@ -58,37 +58,37 @@ def remoteIpaPath (xcode_settings , deploy , destination)
 end
 
 
-def dsymPath (xcode_settings , deploy)
+def dsymPath (settings , deploy)
   
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  bundleName          = xcode_settings[:bundleName]
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  bundleName          = settings[:bundleName]
   
   "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{bundleName}.app.dSYM"
   
 end
 
-def savedDsymPath (xcode_settings , deploy)
+def savedDsymPath (settings , deploy)
   
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  buildNumber         = xcode_settings[:buildNumber]
-  applicationName     = xcode_settings[:applicationName]
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  buildNumber         = settings[:buildNumber]
+  applicationName     = settings[:applicationName]
   
   "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{applicationName}.#{buildNumber}.app.dSYM"
   
 end
 
-def zippedDsymPath (xcode_settings , deploy)
+def zippedDsymPath (settings , deploy)
   
-  savedDsymPath(xcode_settings , deploy) + ".zip"
+  savedDsymPath(settings , deploy) + ".zip"
   
 end
 
-def remoteDsymPath (xcode_settings , deploy , destination)
+def remoteDsymPath (settings , deploy , destination)
   
-  buildNumber         = xcode_settings[:buildNumber]
-  applicationName     = xcode_settings[:applicationName]  
+  buildNumber         = settings[:buildNumber]
+  applicationName     = settings[:applicationName]  
   
   remotePath  = destination["path"]  
   dsymName    = "#{applicationName}.#{buildNumber}.app.dSYM.zip"
@@ -97,24 +97,24 @@ def remoteDsymPath (xcode_settings , deploy , destination)
   
 end
 
-def deployPlistPath (xcode_settings , deploy)
+def deployPlistPath (settings , deploy)
 
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  buildNumber         = xcode_settings[:buildNumber]
-  applicationName     = xcode_settings[:applicationName]
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  buildNumber         = settings[:buildNumber]
+  applicationName     = settings[:applicationName]
   
   "#{buildDirectory}/#{buildConfiguration}-iphoneos/#{applicationName}.#{buildNumber}.plist"
 
 end
 
-def remoteDeployPlistPath (xcode_settings , deploy , destination)
+def remoteDeployPlistPath (settings , deploy , destination)
   
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  buildNumber         = xcode_settings[:buildNumber]
-  applicationName     = xcode_settings[:applicationName]
-  ipaName             = ipaName(xcode_settings , deploy)
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  buildNumber         = settings[:buildNumber]
+  applicationName     = settings[:applicationName]
+  ipaName             = ipaName(settings , deploy)
   remotePath          = destination["path"]
   pjServerConf        = deploy["infosPlist"]["PJServerConf"]
   fileName            = fileNameForEnv pjServerConf

@@ -3,26 +3,26 @@ require 'bundler/setup'
 
 require 'plist'
 
-def buildApp (xcode_settings , deploy)
+def buildApp (settings , deploy)
   
-  applicationName     = xcode_settings[:applicationName]
-  projectDirectory    = xcode_settings[:projectDirectory]
+  puts "Build désactivée pour l'instant"
+  return
   
-  workspaceName       = xcode_settings[:workspaceName]
-  schemeName          = xcode_settings[:schemeName]
-  targetSDK           = xcode_settings[:targetSDK]
+  applicationName     = settings[:applicationName]
+  projectDirectory    = settings[:projectDirectory]
   
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  buildDirectory      = xcode_settings[:buildDirectory]
+  workspaceName       = settings[:workspaceName]
+  schemeName          = settings[:schemeName]
+  targetSDK           = settings[:targetSDK]
+  
+  buildConfiguration  = settings[:buildConfiguration]
+  buildDirectory      = settings[:buildDirectory]
   
   puts "Compilation de l'application #{applicationName}"
   
   build_command  = "xcodebuild"
   build_command += " -workspace \"#{workspaceName}\""
   build_command += " -scheme \"#{schemeName}\""
-  # build_command += " -sdk \"#{targetSDK}\""
-  # build_command += " -reporter pretty"
-  # build_command += " -reporter json-compilation-database:\"#{buildDirectory}/compile_commands.json\""
   build_command += " -configuration #{buildConfiguration}"
   build_command += " BUILD_DIR=\"#{buildDirectory}\""
   build_command += " clean build"
@@ -33,6 +33,28 @@ def buildApp (xcode_settings , deploy)
   
   Dir.chdir "#{projectDirectory}"
   system("#{build_command}")
+  
+end
+
+def updateBuild (settings , deploy)
+  
+  # updateIcon settings , deploy
+  
+  puts "Mise-à-jour du fichier PagesJaunes-Info.plist"
+  
+  projectInfosPath  = plistInAppPath(settings , deploy)
+  # projectInfos      = Plist::parse_xml(projectInfosPath)
+  
+  plist         = CFPropertyList::List.new(file: projectInfosPath)
+  projectInfos  = CFPropertyList.native_types(plist.value)
+  
+  projectInfos['CFBundleDisplayName'] = deploy["infosPlist"]["CFBundleDisplayName"]
+  projectInfos['CFBundleIdentifier']  = deploy["infosPlist"]["CFBundleIdentifier"]
+  projectInfos['PJServerConf']        = deploy["infosPlist"]["PJServerConf"]
+  
+  # Plist::Emit.save_plist(projectInfos , projectInfosPath)
+  plist.value = CFPropertyList.guess(projectInfos)
+  plist.save(projectInfosPath , CFPropertyList::List::FORMAT_BINARY)
   
 end
 

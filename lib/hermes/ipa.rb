@@ -6,22 +6,25 @@ require 'parse-ruby-client'
 
 require_relative 'paths.rb'
 
-def generateIpa (xcode_settings , deploy)
+def generateIpa (settings , deploy)
+  
+  puts "Génération de l'ipa désactivée pour le moment"
+  return
     
-  buildDirectory      = xcode_settings[:buildDirectory]
-  buildConfiguration  = xcode_settings[:buildConfiguration]
-  buildNumber         = xcode_settings[:buildNumber]
-  applicationName     = xcode_settings[:applicationName]
+  buildDirectory      = settings[:buildDirectory]
+  buildConfiguration  = settings[:buildConfiguration]
+  buildNumber         = settings[:buildNumber]
+  applicationName     = settings[:applicationName]
   
-  appPath       = appPath(xcode_settings , deploy)
-  ipaPath       = ipaPath(xcode_settings , deploy)
+  appPath       = appPath(settings , deploy)
+  ipaPath       = ipaPath(settings , deploy)
   
-  dsymPath        = dsymPath(xcode_settings , deploy)
-  savedDsymPath   = savedDsymPath(xcode_settings , deploy)
-  zippedDsymPath  = zippedDsymPath(xcode_settings , deploy)
+  dsymPath        = dsymPath(settings , deploy)
+  savedDsymPath   = savedDsymPath(settings , deploy)
+  zippedDsymPath  = zippedDsymPath(settings , deploy)
 
-  signingIdentity     = xcode_settings[:signingIdentity]
-  provisioningProfile = xcode_settings[:provisioningProfile]
+  signingIdentity     = settings[:signingIdentity]
+  provisioningProfile = settings[:provisioningProfile]
   
   puts "Construction de l'IPA"
   
@@ -31,7 +34,7 @@ def generateIpa (xcode_settings , deploy)
   signingCommand +=  " --sign \"#{signingIdentity}\""
   signingCommand +=  " --embed \"#{provisioningProfile}\""
   signingCommand +=  " --embed \"#{provisioningProfile}\""
-  signingCommand +=  " | tee \"#{xcode_settings[:buildDirectory]}/PackageApplication.log\""
+  signingCommand +=  " | tee \"#{settings[:buildDirectory]}/PackageApplication.log\""
   
   
   puts   signingCommand

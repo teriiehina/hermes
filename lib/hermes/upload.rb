@@ -10,17 +10,17 @@ require 'date'
 
 require_relative 'paths.rb'
 
-def uploadArtefacts(xcode_settings , deploy)
+def uploadArtefacts(settings , deploy)
   
-  uploadPlist(xcode_settings , deploy)
-  uploadIPA(xcode_settings , deploy)
+  uploadPlist(settings , deploy)
+  uploadIPA(settings , deploy)
 
   # legacy, shouldn't be needed when the old DTAppStore will no more be used.
-  updateDTMobXML xcode_settings , deploy
+  updateDTMobXML settings , deploy
   
 end
 
-def uploadFiles(xcode_settings , deploy , destination , files_to_upload)
+def uploadFiles(settings , deploy , destination , files_to_upload)
   
   host    = destination["host"]
   login   = destination["login"]
@@ -40,34 +40,34 @@ def uploadFiles(xcode_settings , deploy , destination , files_to_upload)
   
 end
 
-def uploadIPA(xcode_settings , deploy)
+def uploadIPA(settings , deploy)
 
   deploy["uploadServer"]["ipa"].each do |destination|
     
-    ipaPath         = ipaPath (xcode_settings , deploy)
-    remoteIpaPath   = remoteIpaPath (xcode_settings , deploy , destination)
+    ipaPath         = ipaPath (settings , deploy)
+    remoteIpaPath   = remoteIpaPath (settings , deploy , destination)
     
-    dsymPath        = zippedDsymPath(xcode_settings , deploy)
-    remoteDsymPath  = remoteDsymPath(xcode_settings , deploy , destination)
+    dsymPath        = zippedDsymPath(settings , deploy)
+    remoteDsymPath  = remoteDsymPath(settings , deploy , destination)
     
     files_to_upload = [[ipaPath , remoteIpaPath] , [dsymPath , remoteDsymPath]]
     
-    uploadFiles(xcode_settings , deploy , destination , files_to_upload)
+    uploadFiles(settings , deploy , destination , files_to_upload)
     
   end
   
 end
 
-def uploadPlist(xcode_settings , deploy)
+def uploadPlist(settings , deploy)
   
   deploy["uploadServer"]["plist"].each do |destination|
     
-    deployPlistPath         = deployPlistPath       (xcode_settings , deploy)
-    remoteDeployPlistPath   = remoteDeployPlistPath (xcode_settings , deploy ,destination)
+    deployPlistPath         = deployPlistPath       (settings , deploy)
+    remoteDeployPlistPath   = remoteDeployPlistPath (settings , deploy ,destination)
     
     files_to_upload = [[deployPlistPath , remoteDeployPlistPath]]
     
-    uploadFiles(xcode_settings , deploy , destination , files_to_upload)
+    uploadFiles(settings , deploy , destination , files_to_upload)
     
   end
   
@@ -127,7 +127,7 @@ def uploadViaFTP(host, usermame , password , path, files_to_upload)
 end
 
 
-def updateDTMobXML (xcode_settings , deploy)
+def updateDTMobXML (settings , deploy)
   
   # après upload des artefacts, on peut mettre à jour le fichier dtmob.xml
   # et pourquoi pas dsem.xml
@@ -139,7 +139,7 @@ def updateDTMobXML (xcode_settings , deploy)
   host        = deploy["uploadServer"]["host"]
   login       = deploy["uploadServer"]["login"]
   path        = deploy["uploadServer"]["path"]
-  buildNumber = xcode_settings[:buildNumber]
+  buildNumber = settings[:buildNumber]
   
   dtmobApplicationName    = deploy["uploadServer"]["applicationTitle"]
   dtmobApplicationVersion = deploy["uploadServer"]["applicationVersion"]
