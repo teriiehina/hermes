@@ -5,9 +5,6 @@ require 'plist'
 
 def buildApp (settings)
   
-  puts "Build désactivée pour l'instant"
-  return
-  
   applicationName     = settings[:applicationName]
   projectDirectory    = settings[:projectDirectory]
   

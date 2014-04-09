@@ -16,38 +16,87 @@ require_relative 'paths.rb'
 require_relative 'git.rb'
 require_relative 'upload.rb'
 
-def build_and_deploy (deployments , should_upload = true)
 
-  #unlock_keychain
-
+def buildDeployments (deployments)
+  
   deployments.each do |deploy|
     
     puts "Chargement des variables"
     settings = load_settings deploy
 
     puts "Création de l'.app"
-    # buildApp settings
-    # updateBuild settings
+    buildApp settings
+    updateBuild settings
     
     puts "Création de l'.ipa et du .plist"
-    # buildArtefacts settings
+    buildArtefacts settings
+    
+  end
+  
+end
+
+def uploadDeployments (deployments)
+  
+  deployments.each do |deploy|
+    puts "Chargement des variables"
+    settings = load_settings deploy
+    
+    puts "Téléversement de l'.ipa et du .plist"
+    uploadArtefacts settings
+  end
+  
+end
+
+def deployDeployments (deployments)
+  
+  deployments.each do |deploy|
+    puts "Chargement des variables"
+    settings = load_settings deploy
+    
+    puts "Mise à jour de Parse"
+    updateParse settings
+    
+    puts "Création d'un tag git"
+    tagGit settings
+    
+  end
+  
+end
+
+def panDeployments (deployments)
+  
+  deployments.each do |deploy|
+    puts "Chargement des variables"
+    settings = load_settings deploy
+    
+    puts "Chargement des variables"
+    settings = load_settings deploy
+
+    puts "Création de l'.app"
+    buildApp settings
+    updateBuild settings
+    
+    puts "Création de l'.ipa et du .plist"
+    buildArtefacts settings
 
     if should_upload
       
       puts "Téléversement de l'.ipa et du .plist"
-      # uploadArtefacts settings
+      uploadArtefacts settings
 
       puts "Mise à jour de Parse"
       updateParse settings
 
       puts "Création d'un tag git"
-      # tagGit settings
+      tagGit settings
       
     end
     
   end
-
+  
 end
+
+
 
 def buildArtefacts (xcode_settings)
   generateIpa   xcode_settings
