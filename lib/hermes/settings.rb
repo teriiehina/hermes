@@ -16,7 +16,6 @@ def load_settings(deploy)
   settings[:projectDirectory]     = deploy["paths"]["projectAbsolutPath"]
 
   settings[:workspaceName]        = deploy["build"]["workspaceName"]
-  settings[:projectName]          = deploy["build"]["projectName"]
   settings[:schemeName]           = deploy["build"]["schemeName"]
   settings[:projectInfosPath]     = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["infosPlistRelativePath"]
 

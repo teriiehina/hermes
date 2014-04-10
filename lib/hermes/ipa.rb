@@ -8,9 +8,6 @@ require_relative 'paths.rb'
 
 def generateIpa settings
   
-  puts "Génération de l'ipa désactivée pour le moment"
-  return
-    
   buildDirectory      = settings[:buildDirectory]
   buildConfiguration  = settings[:buildConfiguration]
   buildNumber         = settings[:buildNumber]
@@ -22,7 +19,7 @@ def generateIpa settings
   dsymPath        = dsymPath(settings)
   savedDsymPath   = savedDsymPath(settings)
   zippedDsymPath  = zippedDsymPath(settings)
-
+  
   signingIdentity     = settings[:signingIdentity]
   provisioningProfile = settings[:provisioningProfile]
   
