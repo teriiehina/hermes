@@ -30,5 +30,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'parse-ruby-client'
   spec.add_development_dependency 'nokogiri'
   spec.add_development_dependency 'CFPropertyList'
-  
+  spec.add_development_dependency 'xcpretty'
 end
