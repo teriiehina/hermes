@@ -18,7 +18,8 @@ def updateParse (settings)
   if (objectId.nil? or objectId.length == 0)
     appVersion = Parse::Object.new("ApplicationVersion")
   else
-    appVersionsQuery = Parse::Query.new("GameScore")
+    puts "On a déjà déployé cette version, on la met à jour"
+    appVersionsQuery = Parse::Query.new("ApplicationVersion")
     appVersionsQuery.eq("objectId", objectId)
     appVersion = appVersionsQuery.get.first
   end
@@ -29,14 +30,13 @@ def updateParse (settings)
   appVersion["versionLevel"]     = parseInfos["versionLevel"].to_i
   appVersion["versionUrl"]       = publicPlistURL settings
 
-  result = newAppVersion.save
+  result = appVersion.save
   
-  settings[:deploy]["parse"]["objectId"] =  result["objectId"]
+  if (objectId.nil? or objectId.length == 0)
+    puts "Merci de sauvegarder la valeur \"#{result["objectId"]}\" dans parse:objectId"
+  else
+    puts "le déploiement a bien été mis à jour"
+  end  
   
-  puts "we should save #{result["objectId"]}"
-  
-  
-  puts result.to_s
-
 end
 
