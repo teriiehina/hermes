@@ -12,15 +12,29 @@ def updateParse (settings)
               api_key:        settings[:deploy]["parse"]["apiKey"]
               
   parseInfos = settings[:deploy]["parse"]
+  
+  objectId = parseInfos["objectId"]
+  
+  if (objectId.nil? or objectId.length == 0)
+    appVersion = Parse::Object.new("ApplicationVersion")
+  else
+    appVersionsQuery = Parse::Query.new("GameScore")
+    appVersionsQuery.eq("objectId", objectId)
+    appVersion = appVersionsQuery.get.first
+  end
 
-  newAppVersion                     = Parse::Object.new("ApplicationVersion")
-  newAppVersion["applicationId"]    = parseInfos["applicationId"]
-  newAppVersion["versionNumber"]    = parseInfos["versionNumber"]
-  newAppVersion["versionChangeLog"] = parseInfos["versionChangeLog"]
-  newAppVersion["versionLevel"]     = parseInfos["versionLevel"].to_i
-  newAppVersion["versionUrl"]       = publicPlistURL settings
+  appVersion["applicationId"]    = parseInfos["applicationId"]
+  appVersion["versionNumber"]    = parseInfos["versionNumber"]
+  appVersion["versionChangeLog"] = parseInfos["versionChangeLog"]
+  appVersion["versionLevel"]     = parseInfos["versionLevel"].to_i
+  appVersion["versionUrl"]       = publicPlistURL settings
 
   result = newAppVersion.save
+  
+  settings[:deploy]["parse"]["objectId"] =  result["objectId"]
+  
+  puts "we should save #{result["objectId"]}"
+  
   
   puts result.to_s
 
