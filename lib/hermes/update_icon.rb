@@ -43,8 +43,7 @@ def addInfosToIcon (settings , source_file , dest_file)
   version       = projectInfos["CFBundleVersion"]
   commit        = `git rev-parse --short HEAD`.strip
   branch        = `git rev-parse --abbrev-ref HEAD`.strip
-  pjServerConf  = fileNameForEnv settings[:deploy]["PJServerConf"]
-    
+  
   width    = `identify -format %w #{source_file}`
   
   caption = iconCaptionForDeploy settings[:deploy]
@@ -67,9 +66,6 @@ def iconCaptionForDeploy(deploy)
     caption += "#{version}"
   end
   
-  if !deploy["icon"]["addCIMobEnv"]
-    caption += "#{pjServerConf}"
-  end
   
   if !deploy["icon"]["addCommitId"]
     caption += "#{commit}"

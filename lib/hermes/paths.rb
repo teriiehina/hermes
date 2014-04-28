@@ -28,9 +28,8 @@ def ipaName (settings)
   applicationName     = settings[:applicationName]
   
   pjServerConf        = settings[:deploy]["infosPlist"]["PJServerConf"]
-  cimob               = fileNameForEnv pjServerConf
 
-  "#{applicationName}.#{cimob}.#{buildNumber}.ipa"
+  "#{applicationName}.#{buildNumber}.ipa"
   
 end
 
@@ -94,10 +93,9 @@ def plistName (settings)
   
   applicationName     = settings[:applicationName]
   pjServerConf        = settings[:deploy]["infosPlist"]["PJServerConf"]
-  cimob               = fileNameForEnv pjServerConf
   buildNumber         = settings[:buildNumber]
   
-  "#{applicationName}.#{cimob}.#{buildNumber}.plist"
+  "#{applicationName}.#{buildNumber}.plist"
   
 end
 
@@ -157,41 +155,6 @@ end
 # Extra
 #
 
-def fileNameForEnv(pjServerConf)
-
-  if pjServerConf == "inte1" then
-    return "inte"
-  elsif pjServerConf == "inte2" then
-    return "2t"
-  elsif pjServerConf == "inte3" then
-    return "3t"
-  elsif pjServerConf == "pp2" then
-    return "preprod"
-  elsif pjServerConf == "prod" then
-    return "prod"
-  elsif pjServerConf == "prod-new" then
-    return "ubu"
-  end
-
-end
-
-def dtmobXMLVersionForEnv(pjServerConf)
-  
-  if pjServerConf == "inte1" then
-    return "1T"
-    elsif pjServerConf == "inte2" then
-    return "2T"
-    elsif pjServerConf == "inte3" then
-    return "3T"
-    elsif pjServerConf == "pp2" then
-    return "PP"
-    elsif pjServerConf == "prod" then
-    return "P"
-    elsif pjServerConf == "prod-new" then
-    return "UBU"
-  end
-  
-end
 
 def remoteDTMobFile
   
