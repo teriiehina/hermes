@@ -21,7 +21,7 @@ module Hermes
     end
     
     desc "upload JOB", "will upload the job (must have been 'build' before)"
-    def upload(plist)      
+    def upload(plist)
       deployments   = Plist::parse_xml(plist)
       uploadDeployments deployments
     end

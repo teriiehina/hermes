@@ -45,9 +45,13 @@ def updateBuild (settings)
   plist         = CFPropertyList::List.new(file: projectInfosPath)
   projectInfos  = CFPropertyList.native_types(plist.value)
   
-  projectInfos['CFBundleDisplayName'] = settings[:deploy]["infosPlist"]["CFBundleDisplayName"]
-  projectInfos['CFBundleIdentifier']  = settings[:deploy]["infosPlist"]["CFBundleIdentifier"]
-  projectInfos['PJServerConf']        = settings[:deploy]["infosPlist"]["PJServerConf"]
+  settings[:deploy]["infosPlist"].each do |key , value|
+    projectInfos[key] = value
+  end
+  
+  # projectInfos['CFBundleDisplayName'] = settings[:deploy]["infosPlist"]["CFBundleDisplayName"]
+  # projectInfos['CFBundleIdentifier']  = settings[:deploy]["infosPlist"]["CFBundleIdentifier"]
+  # projectInfos['PJServerConf']        = settings[:deploy]["infosPlist"]["PJServerConf"]
   
   # Plist::Emit.save_plist(projectInfos , projectInfosPath)
   plist.value = CFPropertyList.guess(projectInfos)
