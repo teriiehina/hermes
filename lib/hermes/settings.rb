@@ -14,18 +14,20 @@ def load_settings(deploy)
   
   settings[:applicationName]      = deploy["infosPlist"]["CFBundleDisplayName"]
   settings[:projectDirectory]     = deploy["paths"]["projectAbsolutPath"]
+  settings[:projectDirectory]     = Dir.pwd
+  
 
   settings[:workspaceName]        = deploy["build"]["workspaceName"]
   settings[:schemeName]           = deploy["build"]["schemeName"]
-  settings[:projectInfosPath]     = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["infosPlistRelativePath"]
+  settings[:projectInfosPath]     = settings[:projectDirectory] + "/" + deploy["paths"]["infosPlistRelativePath"]
 
   settings[:targetSDK]            = deploy["build"]["targetSDK"]
   settings[:buildConfiguration]   = deploy["build"]["buildConfiguration"]
-  settings[:buildDirectory]       = deploy["paths"]["projectAbsolutPath"] + "/" + deploy["paths"]["buildRelativePath"]
+  settings[:buildDirectory]       = settings[:projectDirectory] + "/" + deploy["paths"]["buildRelativePath"]
   settings[:buildNumber]          = deploy["build"]["buildNumber"]
 
   settings[:signingIdentity]      = deploy["signing"]["identity"]
-  settings[:provisioningProfile]  = "\"#{deploy["paths"]["projectAbsolutPath"]}/#{deploy["signing"]["profile"]}\""
+  settings[:provisioningProfile]  = "\"#{settings[:projectDirectory]}/#{deploy["signing"]["profile"]}\""
   
   settings[:bundleName]           = deploy["build"]["schemeName"]
   
