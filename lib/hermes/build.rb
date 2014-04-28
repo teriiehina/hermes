@@ -36,10 +36,11 @@ end
 def updateBuild (settings)
   
   # updateIcon settings , settings[:deploy]
+    
+  projectInfosPath  = plistInAppPath(settings)
   
   puts "Mise-à-jour du fichier #{projectInfosPath}"
   
-  projectInfosPath  = plistInAppPath(settings)
   # projectInfos      = Plist::parse_xml(projectInfosPath)
   
   plist         = CFPropertyList::List.new(file: projectInfosPath)

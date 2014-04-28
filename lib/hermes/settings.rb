@@ -4,10 +4,6 @@ require 'bundler/setup'
 
 def load_settings(deploy)
 
-
-  # trouver un moyen d'avoir un numéro incrémental unique
-  buildNumber           = "#{ENV['BUILD_NUMBER']}"
-
   settings = Hash.new
   
   settings[:deploy]               = deploy
@@ -25,6 +21,7 @@ def load_settings(deploy)
   settings[:buildConfiguration]   = deploy["build"]["buildConfiguration"]
   settings[:buildDirectory]       = settings[:projectDirectory] + "/" + deploy["paths"]["buildRelativePath"]
   settings[:buildNumber]          = deploy["build"]["buildNumber"]
+  settings[:buildNumber]          = `git rev-list --max-count=1 HEAD`[0..7]
 
   settings[:signingIdentity]      = deploy["signing"]["identity"]
   settings[:provisioningProfile]  = "\"#{settings[:projectDirectory]}/#{deploy["signing"]["profile"]}\""
