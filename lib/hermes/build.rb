@@ -36,10 +36,11 @@ end
 def updateBuild (settings)
   
   # updateIcon settings , settings[:deploy]
-  
-  puts "Mise-à-jour du fichier PagesJaunes-Info.plist"
-  
+    
   projectInfosPath  = plistInAppPath(settings)
+  
+  puts "Mise-à-jour du fichier #{projectInfosPath}"
+  
   # projectInfos      = Plist::parse_xml(projectInfosPath)
   
   plist         = CFPropertyList::List.new(file: projectInfosPath)
@@ -49,11 +50,6 @@ def updateBuild (settings)
     projectInfos[key] = value
   end
   
-  # projectInfos['CFBundleDisplayName'] = settings[:deploy]["infosPlist"]["CFBundleDisplayName"]
-  # projectInfos['CFBundleIdentifier']  = settings[:deploy]["infosPlist"]["CFBundleIdentifier"]
-  # projectInfos['PJServerConf']        = settings[:deploy]["infosPlist"]["PJServerConf"]
-  
-  # Plist::Emit.save_plist(projectInfos , projectInfosPath)
   plist.value = CFPropertyList.guess(projectInfos)
   plist.save(projectInfosPath , CFPropertyList::List::FORMAT_BINARY)
   
