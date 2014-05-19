@@ -26,7 +26,8 @@ def load_settings(deploy)
   settings[:signingIdentity]      = deploy["signing"]["identity"]
   settings[:provisioningProfile]  = "\"#{settings[:projectDirectory]}/#{deploy["signing"]["profile"]}\""
   
-  settings[:bundleName]           = deploy["build"]["schemeName"]
+  
+  settings[:bundleName]           = deploy["build"]["projectName"]
   
   settings
 
