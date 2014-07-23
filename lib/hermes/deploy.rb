@@ -17,7 +17,9 @@ require_relative 'git.rb'
 require_relative 'upload.rb'
 
 
-def buildDeployments (deployments)
+def buildDeployments (plist)
+  
+  deployments = Plist::parse_xml(plist)      
   
   deployments.each do |deploy|
     
@@ -40,7 +42,9 @@ def buildDeployments (deployments)
   
 end
 
-def uploadDeployments (deployments)
+def uploadDeployments (plist)
+  
+  deployments = Plist::parse_xml(plist)      
   
   deployments.each do |deploy|
     puts "Chargement des variables"
@@ -52,7 +56,10 @@ def uploadDeployments (deployments)
   
 end
 
-def deployDeployments (deployments)
+def deployDeployments (plist)
+  
+  plist         = CFPropertyList::List.new(file: plist)
+  deployments   = CFPropertyList.native_types(plist.value)
   
   deployments.each do |deploy|
     puts "Chargement des variables"
@@ -62,9 +69,14 @@ def deployDeployments (deployments)
     updateParse settings
   end
   
+  plist.value = CFPropertyList.guess(deployments)
+  plist.save(plist , CFPropertyList::List::FORMAT_XML)
+  
 end
 
-def panDeployments (deployments)
+def panDeployments (plist)
+  
+  deployments = Plist::parse_xml(plist)      
   
   deployments.each do |deploy|
     

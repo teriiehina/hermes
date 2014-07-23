@@ -33,7 +33,8 @@ def updateParse (settings)
   result = appVersion.save
   
   if (objectId.nil? or objectId.length == 0)
-    puts "Merci de sauvegarder la valeur \"#{result["objectId"]}\" dans parse:objectId"
+    puts "#{settings[:applicationName]} : \"#{result["objectId"]}\" parse:objectId"
+    parseInfos["objectId"] = result["objectId"]
   else
     puts "le déploiement a bien été mis à jour"
   end  

@@ -16,26 +16,22 @@ module Hermes
 
     desc "build JOB", "will build the job"
     def build(plist)
-      deployments   = Plist::parse_xml(plist)      
-      buildDeployments deployments
+      buildDeployments plist
     end
     
     desc "upload JOB", "will upload the job (must have been 'build' before)"
     def upload(plist)
-      deployments   = Plist::parse_xml(plist)
-      uploadDeployments deployments
+      uploadDeployments plist
     end
     
     desc "deploy JOB", "will deploy the job (must have been 'build' and 'upload' before)"
     def deploy(plist)      
-      deployments   = Plist::parse_xml(plist)
-      deployDeployments deployments
+      deployDeployments plist
     end
     
     desc "pan JOB", "will build, upload and deploy the job"
     def pan(plist)
-      deployments   = Plist::parse_xml(plist)
-      panDeployments deployments
+      panDeployments plist
     end
     
   end
