@@ -23,6 +23,12 @@ def buildDeployments (deployments)
     
     puts "Chargement des variables"
     settings = load_settings deploy
+    
+    # on s'assure d'être dans la bonne version du code
+    # si le Info.plist ne contient pas de valeur pour la clé
+    # :CFBundleVersion (ce qui serait un peu embetant)
+    # on taggue le commit courant
+    checkOutGitVersion settings
 
     puts "Création de l'.app"
     buildApp settings
@@ -30,7 +36,6 @@ def buildDeployments (deployments)
     
     puts "Création de l'.ipa et du .plist"
     buildArtefacts settings
-    
   end
   
 end
@@ -55,10 +60,6 @@ def deployDeployments (deployments)
     
     puts "Mise à jour de Parse"
     updateParse settings
-    
-    puts "Création d'un tag git"
-    tagGit settings
-    
   end
   
 end
@@ -66,11 +67,15 @@ end
 def panDeployments (deployments)
   
   deployments.each do |deploy|
-    puts "Chargement des variables"
-    settings = load_settings deploy
     
     puts "Chargement des variables"
     settings = load_settings deploy
+    
+    # on s'assure d'être dans la bonne version du code
+    # si le Info.plist ne contient pas de valeur pour la clé
+    # :CFBundleVersion (ce qui serait un peu embetant)
+    # on taggue le commit courant
+    checkOutGitVersion settings
 
     puts "Création de l'.app"
     buildApp settings
@@ -78,18 +83,13 @@ def panDeployments (deployments)
     
     puts "Création de l'.ipa et du .plist"
     buildArtefacts settings
-
+    
     if should_upload
-      
       puts "Téléversement de l'.ipa et du .plist"
       uploadArtefacts settings
 
       puts "Mise à jour de Parse"
       updateParse settings
-
-      puts "Création d'un tag git"
-      tagGit settings
-      
     end
     
   end
