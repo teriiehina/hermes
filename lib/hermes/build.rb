@@ -53,6 +53,10 @@ def updateBuild (settings)
     projectInfos[key] = value
   end
   
+  # ajout du SHA1 du commit servant à builder cette version
+  projectInfos["lastCommitSHA1"] = settings[:gitSHA1]
+  
+  
   plist.value = CFPropertyList.guess(projectInfos)
   plist.save(projectInfosPath , CFPropertyList::List::FORMAT_BINARY)
   
