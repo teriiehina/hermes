@@ -56,21 +56,23 @@ def uploadDeployments (plist)
   
 end
 
-def deployDeployments (plist)
+def deployDeployments (plist_path)
   
-  plist         = CFPropertyList::List.new(file: plist)
-  deployments   = CFPropertyList.native_types(plist.value)
+  plist_content = CFPropertyList::List.new(file: plist_path)
+  deployments   = CFPropertyList.native_types(plist_content.value)
   
   deployments.each do |deploy|
     puts "Chargement des variables"
     settings = load_settings deploy
     
     puts "Mise à jour de Parse"
-    updateParse settings
+    objectId = updateParse settings
+    deploy["parse"]["objectId"] = objectId
   end
   
-  plist.value = CFPropertyList.guess(deployments)
-  plist.save(plist , CFPropertyList::List::FORMAT_XML)
+  puts "sauvegardes des infos de parse"
+  plist_content.value = CFPropertyList.guess(deployments)
+  plist_content.save(plist_path , CFPropertyList::List::FORMAT_XML)
   
 end
 
