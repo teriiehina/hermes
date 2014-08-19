@@ -1,11 +1,20 @@
 require 'rubygems'
 require 'bundler/setup'
 
+require 'highline/import'
+
 def checkOutGitVersion (settings)
   
   tags            = `git tag`
   tag_name        = settings[:CFBundleVersion]
   current_commit  = settings[:gitSHA1]
+  
+  # choose do |menu|
+  #   menu.prompt = "Would you like to create a tag for this build ?  "
+  #
+  #   menu.choice(:yes) { say("Good choice!") }
+  #   menu.choice(:no) { say("Too bad") }
+  # end
   
   if tags.include?("#{tag_name}\n") == false
     puts "Le tag #{tag_name} n'existe pas."
