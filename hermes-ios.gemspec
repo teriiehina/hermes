@@ -1,13 +1,13 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'hermes/version'
+require 'hermes-ios/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "hermes"
+  spec.name          = "hermes-ios"
   spec.version       = Hermes::VERSION
   
-  spec.homepage    = 'https://github.com/teriiehina/hermes'
+  spec.homepage    = 'https://github.com/teriiehina/hermes-ios'
   spec.license     = 'MIT'
   
   spec.date        = '2014-03-06'

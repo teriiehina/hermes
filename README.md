@@ -1,42 +1,42 @@
-hermes
+hermes-ios
 ======
 
 Simple tool to build and deploy iOS apps
 
 # Not usable
 
-Be very careful. `hermes` is not intended to be used yet. Neither in production nor development.
+Be very careful. `hermes-ios` is not intended to be used yet. Neither in production nor development.
 This repo is for collaboration for a tool in its very first iteration.
 
 Wet paint, you've been warned.
 
-# What hermes should do
+# What hermes-ios should do
 
 In french for now, translation coming soon.
 
-hermes est une gem ruby
+hermes-ios est une gem ruby
 
-hermes ne prend en paramètre qu'un fichier plist
+hermes-ios ne prend en paramètre qu'un fichier plist
 
-hermes se lance dans un repo git clean et le laisse clean à la fin
+hermes-ios se lance dans un repo git clean et le laisse clean à la fin
 
-hermes est toujours lancé depuis le répertoire qui contient le xcworkspace ou le xccodeproj
+hermes-ios est toujours lancé depuis le répertoire qui contient le xcworkspace ou le xccodeproj
 
-hermes part du principe que
+hermes-ios part du principe que
 
   - dans le cas d'une livraison versionnée, c'est une nouvelle version
   - l'on peut se connecter en ssh password-less sur le serveur d'upload
   - qu'on peut accéder au repo 'origin' pour envoyer les tags en fin de livraison
 
-hermes pourra soumettre à Apple
+hermes-ios pourra soumettre à Apple
 
-A la fin de la livraison, hermes taggue le job en fonction du nom et de la version 
+A la fin de la livraison, hermes-ios taggue le job en fonction du nom et de la version 
 
 voir comment unlocker le keychain (regarder du côté de visudo)
 
 Le plist indique
 
-  - les paths (qui sont toujours relatif au dossier depuis lequel on lance hermes):
+  - les paths (qui sont toujours relatif au dossier depuis lequel on lance hermes-ios):
     - le path vers le Info.plist
             
   - la compilation

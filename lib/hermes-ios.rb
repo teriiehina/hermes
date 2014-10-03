@@ -1,8 +1,8 @@
-require "hermes/version"
+require "hermes-ios/version"
 require 'thor'
 require 'plist'
 
-require 'hermes/deploy'
+require 'hermes-ios/deploy'
 
 module Hermes
 
