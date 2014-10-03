@@ -2,6 +2,6 @@
 
 require 'rubygems'
 require 'bundler/setup'
-require 'hermes-ios'
+require 'mercure'
 
-Hermes::Hermes.start(ARGV)
+Mercure::Mercure.start(ARGV)

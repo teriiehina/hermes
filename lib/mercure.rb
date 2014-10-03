@@ -1,12 +1,12 @@
-require "hermes-ios/version"
+require "mercure/version"
 require 'thor'
 require 'plist'
 
-require 'hermes-ios/deploy'
+require 'mercure/deploy'
 
-module Hermes
+module Mercure
 
-  class Hermes < Thor
+  class Mercure < Thor
 
     desc "check", "will check if everything necessary for building easily is present"
     def check

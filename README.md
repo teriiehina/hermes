@@ -1,42 +1,42 @@
-hermes-ios
+mercure
 ======
 
 Simple tool to build and deploy iOS apps
 
 # Not usable
 
-Be very careful. `hermes-ios` is not intended to be used yet. Neither in production nor development.
+Be very careful. `mercure` is not intended to be used yet. Neither in production nor development.
 This repo is for collaboration for a tool in its very first iteration.
 
 Wet paint, you've been warned.
 
-# What hermes-ios should do
+# What mercure should do
 
 In french for now, translation coming soon.
 
-hermes-ios est une gem ruby
+mercure est une gem ruby
 
-hermes-ios ne prend en paramètre qu'un fichier plist
+mercure ne prend en paramètre qu'un fichier plist
 
-hermes-ios se lance dans un repo git clean et le laisse clean à la fin
+mercure se lance dans un repo git clean et le laisse clean à la fin
 
-hermes-ios est toujours lancé depuis le répertoire qui contient le xcworkspace ou le xccodeproj
+mercure est toujours lancé depuis le répertoire qui contient le xcworkspace ou le xccodeproj
 
-hermes-ios part du principe que
+mercure part du principe que
 
   - dans le cas d'une livraison versionnée, c'est une nouvelle version
   - l'on peut se connecter en ssh password-less sur le serveur d'upload
   - qu'on peut accéder au repo 'origin' pour envoyer les tags en fin de livraison
 
-hermes-ios pourra soumettre à Apple
+mercure pourra soumettre à Apple
 
-A la fin de la livraison, hermes-ios taggue le job en fonction du nom et de la version 
+A la fin de la livraison, mercure taggue le job en fonction du nom et de la version 
 
 voir comment unlocker le keychain (regarder du côté de visudo)
 
 Le plist indique
 
-  - les paths (qui sont toujours relatif au dossier depuis lequel on lance hermes-ios):
+  - les paths (qui sont toujours relatif au dossier depuis lequel on lance mercure):
     - le path vers le Info.plist
             
   - la compilation
