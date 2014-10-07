@@ -11,13 +11,13 @@ require_relative 'paths.rb'
 def updateIcon (settings)
 
   iconsBasePath = "#{settings[:projectDirectory]}/PagesJaunes/Data/Images/SPLASH+ICONE"
-  icons = [["icone_base.png" , "icone.png"] , ["icone_base@2x.png" , "icone@2x.png"]]
+  icons = [["Icon_base.png" , "Icon.png"] , ["Icon_base@2x.png" , "Icon@2x.png"]]
   
   should_update_icon = settings[:deploy]["icon"]["addExtraInfosInIcon"]
   
-  # if !should_update_icon
-  #   return
-  # end
+  if !should_update_icon
+    return
+  end
   
   basePath = appPath(settings)
 
@@ -40,12 +40,10 @@ def addInfosToIcon (settings , source_file , dest_file)
   projectInfosPath  = settings[:projectInfosPath]
   projectInfos      = Plist::parse_xml(projectInfosPath)
 
-  version       = projectInfos["CFBundleVersion"]
-  commit        = `git rev-parse --short HEAD`.strip
-  branch        = `git rev-parse --abbrev-ref HEAD`.strip
-  
-  width    = `identify -format %w #{source_file}`
-  
+  version = projectInfos["CFBundleVersion"]
+  commit  = `git rev-parse --short HEAD`.strip
+  branch  = `git rev-parse --abbrev-ref HEAD`.strip
+  width   = `identify -format %w #{source_file}`
   caption = iconCaptionForDeploy settings[:deploy]
 
   command  = "convert -background '#0008'"
