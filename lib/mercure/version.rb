@@ -1,3 +1,3 @@
-module Hermes
+module Mercure
   VERSION = "0.0.12"
 end
