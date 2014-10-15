@@ -133,6 +133,8 @@ def deployDeploymentsByAsking (plist_path)
   
   deployments.each do |deploy|
     
+    settings = load_settings deploy
+    
     choose do |menu|
       
       versionText = " dans sa version #{settings[:CFBundleVersion]}" if not settings[:CFBundleVersion].nil?
