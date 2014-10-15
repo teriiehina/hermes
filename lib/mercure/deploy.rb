@@ -22,25 +22,56 @@ def buildDeployments (plist)
   deployments = Plist::parse_xml(plist)      
   
   deployments.each do |deploy|
-    
-    puts "Chargement des variables"
-    settings = load_settings deploy
-    
-    # on s'assure d'être dans la bonne version du code
-    # si le Info.plist ne contient pas de valeur pour la clé
-    # :CFBundleVersion (ce qui serait un peu embetant)
-    # on taggue le commit courant
-    checkOutGitVersion settings
-
-    puts "Création de l'.app"
-    buildApp settings
-    updateBuild settings
-    
-    puts "Création de l'.ipa et du .plist"
-    buildArtefacts settings
+    buildDeploy deploy
   end
   
 end
+
+def buildDeploymentsByAsking (plist)
+  
+  deployments = Plist::parse_xml(plist)
+  
+  deployments.each do |deploy|
+    
+    settings = load_settings deploy
+    
+    choose do |menu|
+      
+      versionText = "dans sa version #{settings[:CFBundleVersion]}" if not settings[:CFBundleVersion].nil?
+      menu.prompt = "Veux-tu builder #{settings[:applicationName]} #{versionText} ?  "
+
+      menu.choice(:oui) do
+        say("Bon choix !")
+        buildDeploy deploy
+      end
+      
+      menu.choice(:non) { say("Dommage") }
+    end
+
+  end  
+end
+
+
+def buildDeploy (deploy)
+  
+  puts "Chargement des variables"
+  settings = load_settings deploy
+  
+  # on s'assure d'être dans la bonne version du code
+  # si le Info.plist ne contient pas de valeur pour la clé
+  # :CFBundleVersion (ce qui serait un peu embetant)
+  # on taggue le commit courant
+  checkOutGitVersion settings
+
+  puts "Création de l'.app"
+  buildApp settings
+  updateBuild settings
+  
+  puts "Création de l'.ipa et du .plist"
+  buildArtefacts settings
+  
+end
+
 
 def uploadDeployments (plist)
   

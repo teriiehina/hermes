@@ -7,7 +7,7 @@ require 'mercure/deploy'
 module Mercure
 
   class Mercure < Thor
-
+    
     desc "check", "will check if everything necessary for building easily is present"
     def check
       puts "checking. Missing tools will be installed, if possible."
@@ -15,8 +15,13 @@ module Mercure
     end
 
     desc "build JOB", "will build the job"
+    option :pinailleur, :type => :boolean
     def build(plist)
-      buildDeployments plist
+      if options[:pinailleur]
+        buildDeploymentsByAsking plist
+      else
+        buildDeployments plist
+      end
     end
     
     desc "upload JOB", "will upload the job (must have been 'build' before)"
