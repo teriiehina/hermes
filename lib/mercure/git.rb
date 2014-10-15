@@ -24,7 +24,6 @@ def checkOutGitVersion (settings)
   end
   
   puts "On checkout le tag #{tag_name}"
-  co_tag = `git checkout #{tag_name}`
 end
 
 def tagGit (settings)
