@@ -16,6 +16,9 @@ require_relative 'paths.rb'
 require_relative 'git.rb'
 require_relative 'upload.rb'
 
+# 
+# Build
+#
 
 def buildDeployments (plist)
   
@@ -37,8 +40,8 @@ def buildDeploymentsByAsking (plist)
     
     choose do |menu|
       
-      versionText = "dans sa version #{settings[:CFBundleVersion]}" if not settings[:CFBundleVersion].nil?
-      menu.prompt = "Veux-tu builder #{settings[:applicationName]} #{versionText} ?  "
+      versionText = " dans sa version #{settings[:CFBundleVersion]}" if not settings[:CFBundleVersion].nil?
+      menu.prompt = "Veux-tu builder #{settings[:applicationName]}#{versionText} ?"
 
       menu.choice(:oui) do
         say("Bon choix !")
@@ -73,32 +76,76 @@ def buildDeploy (deploy)
 end
 
 
+# 
+# Upload
+#
+
+def uploadDeploymentsByAsking (plist)
+  
+  deployments = Plist::parse_xml(plist)
+  
+  deployments.each do |deploy|
+    
+    settings = load_settings deploy
+    
+    choose do |menu|
+      
+      versionText = " dans sa version #{settings[:CFBundleVersion]}" if not settings[:CFBundleVersion].nil?
+      menu.prompt = "Veux-tu uploader #{settings[:applicationName]}#{versionText} ?"
+
+      menu.choice(:oui) do
+        say("Bon choix !")
+        uploadDeployments deploy
+      end
+      
+      menu.choice(:non) { say("Dommage") }
+    end
+
+  end  
+end
+
 def uploadDeployments (plist)
   
   deployments = Plist::parse_xml(plist)      
   
   deployments.each do |deploy|
-    puts "Chargement des variables"
-    settings = load_settings deploy
-    
-    puts "Téléversement de l'.ipa et du .plist"
-    uploadArtefacts settings
+    uploadDeploy deploy
   end
-  
 end
 
-def deployDeployments (plist_path)
+
+def uploadDeploy (deploy)
+  puts "Chargement des variables"
+  settings = load_settings deploy
+  
+  puts "Téléversement de l'.ipa et du .plist"
+  uploadArtefacts settings
+end
+
+# 
+# Deploy
+#
+
+def deployDeploymentsByAsking (plist_path)
   
   plist_content = CFPropertyList::List.new(file: plist_path)
   deployments   = CFPropertyList.native_types(plist_content.value)
   
   deployments.each do |deploy|
-    puts "Chargement des variables"
-    settings = load_settings deploy
     
-    puts "Mise à jour de Parse"
-    objectId = updateParse settings
-    deploy["parse"]["objectId"] = objectId
+    choose do |menu|
+      
+      versionText = " dans sa version #{settings[:CFBundleVersion]}" if not settings[:CFBundleVersion].nil?
+      menu.prompt = "Veux-tu déployer #{settings[:applicationName]}#{versionText} ?"
+
+      menu.choice(:oui) do
+        say("Bon choix !")
+        deployDeploy deploy
+      end
+      
+      menu.choice(:non) { say("Dommage") }
+    end
+    
   end
   
   puts "sauvegardes des infos de parse"
@@ -106,6 +153,39 @@ def deployDeployments (plist_path)
   plist_content.save(plist_path , CFPropertyList::List::FORMAT_XML)
   
 end
+
+
+def deployDeployments (plist_path)
+  
+  plist_content = CFPropertyList::List.new(file: plist_path)
+  deployments   = CFPropertyList.native_types(plist_content.value)
+  
+  deployments.each do |deploy|
+    deployDeploy deploy
+  end
+  
+  puts "sauvegardes des infos de parse"
+  plist_content.value = CFPropertyList.guess(deployments)
+  plist_content.save(plist_path , CFPropertyList::List::FORMAT_XML)
+  
+end
+
+
+# I know, I know
+def deployDeploy (deploy)
+  
+  puts "Chargement des variables"
+  settings = load_settings deploy
+    
+  puts "Mise à jour de Parse"
+  objectId = updateParse settings
+  deploy["parse"]["objectId"] = objectId
+  
+end
+
+#
+# pan
+#
 
 def panDeployments (plist)
   
@@ -129,14 +209,12 @@ def panDeployments (plist)
     puts "Création de l'.ipa et du .plist"
     buildArtefacts settings
     
-    if should_upload
-      puts "Téléversement de l'.ipa et du .plist"
-      uploadArtefacts settings
+    puts "Téléversement de l'.ipa et du .plist"
+    uploadArtefacts settings
 
-      puts "Mise à jour de Parse"
-      updateParse settings
-    end
-    
+    puts "Mise à jour de Parse"
+    updateParse settings
+  
   end
   
 end

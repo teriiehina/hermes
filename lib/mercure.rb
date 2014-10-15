@@ -25,18 +25,33 @@ module Mercure
     end
     
     desc "upload JOB", "will upload the job (must have been 'build' before)"
+    option :pinailleur, :type => :boolean
     def upload(plist)
-      uploadDeployments plist
+      if options[:pinailleur]
+        uploadDeploymentsByAsking plist
+      else
+        uploadDeployments plist
+      end
     end
     
     desc "deploy JOB", "will deploy the job (must have been 'build' and 'upload' before)"
+    option :pinailleur, :type => :boolean
     def deploy(plist)      
-      deployDeployments plist
+      if options[:pinailleur]
+        deployDeploymentsByAsking plist
+      else
+        deployDeployments plist
+      end
     end
     
     desc "pan JOB", "will build, upload and deploy the job"
+    option :pinailleur, :type => :boolean
     def pan(plist)
-      panDeployments plist
+      if options[:pinailleur]
+        panDeploymentsByAsking plist
+      else
+        panDeployments plist
+      end
     end
     
   end
